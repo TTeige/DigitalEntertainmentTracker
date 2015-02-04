@@ -200,3 +200,6 @@ ModelManifest.xml
 /log/*
 !/log/.keep
 /tmp
+
+#Ignore RubyMine workspace folder
+.idea

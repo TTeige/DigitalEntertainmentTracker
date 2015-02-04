@@ -51,3 +51,5 @@ gem 'hpricot', '>= 0.8.1'
 gem 'rubyzip', '~> 0.9'
 
 gem 'tvdb'
+
+gem 'tzinfo-data'

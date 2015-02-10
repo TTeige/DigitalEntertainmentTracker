@@ -53,3 +53,5 @@ gem 'rubyzip', '~> 0.9'
 gem 'tvdb'
 
 gem 'tzinfo-data'
+
+gem 'bootstrap-sass', '~> 2.3.1.0'

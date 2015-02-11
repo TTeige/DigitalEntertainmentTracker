@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  get 'home/index'
+  get ':controller(/:action(/:id))'
 
   root 'home#index'
 

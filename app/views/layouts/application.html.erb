@@ -7,16 +7,18 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
 <div class="container">
-    <ul class="nav nav-tabs">
-        <li><%= link_to "Home", root_path %></li>
-        <li><%= link_to "Login", root_path %></li>
-    </ul>
+  <ul class="nav nav-tabs">
+    <li><%= link_to "Home", :controller => "home", :action => "index" %></li>
+    <li><%= link_to "About", :controller => "home", :action => "about" %></li>
+    <li class="navbar-text">Login</li>
+  </ul>
 
-
-<%= yield %>
-
+  <%= yield %>
+  <hr />
+  <footer>
+    <p>&copy; <%= Date.today.year %> Inf-2900 - Team 5 - Digital Entertainment Tracker</p>
+  </footer>
 </div>
 
 </body>

@@ -1,5 +1,3 @@
-require 'tvdb'
-
 class SeriesController < ApplicationController
 
 	def create

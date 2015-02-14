@@ -1,0 +1,13 @@
+<h2>Search Results</h2>
+<h3>Query for <%= @query %></h3>
+
+<%= @results.each do |resultItem| %>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h4 class="panel-title"><%= resultItem.seriesname %></h4>
+  </div>
+  <div class="panel-body">
+    <%= resultItem.inspect %>
+  </div>
+</div>
+<% end %>

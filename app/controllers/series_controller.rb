@@ -1,8 +1,8 @@
 class SeriesController < ApplicationController
 
-	def show
-		client = TVdb::Client.new(ENV['TVDB_API_KEY'])
-		@results = client.search('The Big Bang Theory')			
+  def show
+    client = TVdb::Client.new(ENV['TVDB_API_KEY'])
+    @res = client.search('The Big Bang Theory')
   end
 
   def search

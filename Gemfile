@@ -46,11 +46,9 @@ group :development, :test do
   gem 'rspec-rails'
 end
 
-gem 'hpricot', '>= 0.8.1'
+gem 'httparty', '>= 0.6.1'
 
-gem 'rubyzip', '~> 0.9'
-
-gem 'tvdb'
+gem 'thetvdb_party'
 
 gem 'tzinfo-data'
 

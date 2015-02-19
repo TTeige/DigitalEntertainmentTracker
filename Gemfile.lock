@@ -184,7 +184,7 @@ GEM
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
-    thetvdb_party (0.0.3.pre)
+    thetvdb_party (0.0.8.pre)
       httparty (~> 0.6)
     thor (0.19.1)
     thread_safe (0.3.4)

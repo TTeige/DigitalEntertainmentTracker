@@ -1,20 +1,19 @@
 <div class="page-header">
 
   <h1><%= @res[0].seriesname %></h1>
-
 </div>
 
-<div class="panel panel-default">
+<%= image_tag(@res[0].poster) %>
 
+<div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Actors</h3>
   </div>
 
   <ul class="list-group">
-  <%= @res[0].actors.each do |actor| %>
+  <% @res[0].actors.each do |actor| %>
     <li class="list-group-item"><%= actor %></li>
   <% end %>
   </ul>
-
 </div>
 

@@ -8,5 +8,5 @@ require 'thetvdb_party/version'
 # thetvdb_party gem root namespace
 module TheTvDbParty
   # The base url for the TheTvDB API
-  BASE_URL = 'http://thetvdb.com/api/'
+  BASE_URL = 'http://thetvdb.com/'
 end

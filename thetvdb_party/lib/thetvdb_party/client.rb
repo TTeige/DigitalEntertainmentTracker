@@ -46,7 +46,7 @@ module TheTvDbParty
     def search(seriesname)
       http_query = { :seriesname => seriesname }
       http_query[:language => @language] if @language
-      response = self.class.get(URI::join(BASE_URL, 'GetSeries.php'), { :query => http_query }).parsed_response
+      response = self.class.get(URI::join(BASE_URL, 'api/', 'GetSeries.php'), { :query => http_query }).parsed_response
       return [] unless response["Data"]
       case response["Data"]["Series"]
         when Array
@@ -67,7 +67,7 @@ module TheTvDbParty
       else
         request_url = "#{@apikey}/series/#{seriesid}/#{@language}.xml"
       end
-      request_url = URI.join(BASE_URL, request_url)
+      request_url = URI.join(BASE_URL, 'api/', request_url)
       resp = self.class.get(request_url).parsed_response
       return nil unless resp["Data"]["Series"]
       BaseSeriesRecord.new(self, resp["Data"]["Series"])

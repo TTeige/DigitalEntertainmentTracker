@@ -118,14 +118,15 @@ module TheTvDbParty
     def lastupdated; @hashValues["lastupdated"] ? Time.at(@hashValues["lastupdated"].to_i).to_datetime : nil end
 
     # The full path to the banner for the series.
-    # @return [URI] The full path for the highest rated banner for the series, returned as a URI instance.def bannerpath_full; URI::join(BASE_URL, "banners", bannerpath_relative) end
+    # @return [URI] The full path for the highest rated banner for the series, returned as a URI instance.
+    def bannerpath_full; URI::join(BASE_URL, "banners/", bannerpath_relative) end
 
     # The full path to the banner for the series.
     # @return [URI] The full path for the highest rated fanart for the series, returned as a URI instance.
-    def fanartpath_full; URI::join(BASE_URL, "banners", fanartpath_relative) end
+    def fanartpath_full; URI::join(BASE_URL, "banners/", fanartpath_relative) end
 
     # The full path to the banner for the series.
     # @return [URI] The full path for the highest rated poster for the series, returned as a URI instance.
-    def posterpath_full; URI::join(BASE_URL, "banners", posterpath_relative) end
+    def posterpath_full; URI::join(BASE_URL, "banners/", posterpath_relative) end
   end
 end

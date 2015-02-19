@@ -70,7 +70,7 @@ module TheTvDbParty
 
     # The full path to the banner for the series.
     # @return [URI] The full path for the highest rated banner for the series, returned as a URI instance.
-    def bannerpath_full; URI::join(BASE_URL, "banners", bannerpath_relative) end
+    def bannerpath_full; URI::join(BASE_URL, "banners/", bannerpath_relative) end
 
     # Retrieves the Base Series Record for the series
     # @return [TheTvDbParty::BaseSeriesRecord] The Base Series Record for the series

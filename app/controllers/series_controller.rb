@@ -8,6 +8,7 @@ class SeriesController < ApplicationController
   def search
     client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
     @query = params[:query]
+    client.language = params[:lang] if params[:lang]
 
     @results = client.search(@query)
   end

@@ -45,7 +45,7 @@ module TheTvDbParty
     # @note The method call with the account identifier is currently not supported.
     def search(seriesname)
       http_query = { :seriesname => seriesname }
-      http_query[:language => @language] if @language
+      http_query[:language] = @language if @language
       response = self.class.get(URI::join(BASE_URL, 'api/', 'GetSeries.php'), { :query => http_query }).parsed_response
       return [] unless response["Data"]
       case response["Data"]["Series"]

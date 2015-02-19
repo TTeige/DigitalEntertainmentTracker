@@ -4,7 +4,7 @@
 <% @results.each do |resultItem| %>
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h4 class="panel-title"><%= resultItem.seriesname %></h4>
+    <h4 class="panel-title"><%= link_to resultItem.seriesname, {:controller => "series", :action => "show", :seriesid => resultItem.seriesid} %></h4>
   </div>
   <div class="panel-body">
     <% if resultItem.bannerpath_full %>

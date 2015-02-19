@@ -2,15 +2,34 @@
   <%= image_tag(@result.bannerpath_full, :class => "center-block", alt: @result.seriesname) %>
 </div>
 
+<nav>
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">5</a></li>
+    <li>
+      <a href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
 
 <div class="panel panel-default">
   <div class="panel-heading">
-    <h3 class="panel-title">Actors</h3>
+    <h3 class="panel-title">Genres</h3>
   </div>
 
   <ul class="list-group">
-  <% @result.actors.each do |actor| %>
-    <li class="list-group-item"><%= actor %></li>
+  <% @result.genres.each do |genre| %>
+    <li class="list-group-item"><%= genre %></li>
   <% end %>
   </ul>
 </div>

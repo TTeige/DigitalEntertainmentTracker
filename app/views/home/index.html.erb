@@ -1,3 +1,21 @@
-<h2>Home#index</h2>
-
-<p>Find me in app/views/home/index.html.erb</p>
+<h1>Welcome to the Digital Entertainment Tracker!</h1>
+<h3>These are our most tracked shows, log in to add and track your favourites.</h3>
+<table>
+	<tr>
+		<th>Series title</th>
+		<th>Air time</th>
+	</tr>
+<% @baseRecords.each do |baseRecord| %>
+	<tr>
+		<td><%=baseRecord.seriesname%></td>
+		<td><%=baseRecord.airs_dayofweek%>
+		</td>
+		<td>- <%if baseRecord.airs_time!=nil %>
+			<%= baseRecord.airs_time.hour %>:<%= baseRecord.airs_time.min %>
+			<% else %>
+			<%= ""%>
+			<% end %>
+		</td>
+	</tr>
+<% end %>
+</table>

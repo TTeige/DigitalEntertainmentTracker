@@ -203,6 +203,7 @@ ModelManifest.xml
 
 #Ignore RubyMine workspace folder
 .idea
+.report
 
 # Ignore erroneous bootstrap pre-compile files
 /public/assets/glyphicons*

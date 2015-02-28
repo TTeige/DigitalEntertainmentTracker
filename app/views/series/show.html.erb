@@ -1,6 +1,21 @@
 <div class="page-header">
-  <%= image_tag(@result.bannerpath_full, :class => "center-block", alt: @result.seriesname) %>
+  <%= image_tag(@result.full_series_record.bannerpath_full, :class => "center-block", alt: @result.full_series_record.seriesname) %>
 </div>
+
+<h3>Actors</h3>
+<ul class="list-group">
+  <% @result.actors.each do |a| %>
+  <li class="list-group-item">
+    <div class="media-left">
+      <%= image_tag(a.image_path_full, :height => 70, :width => 50) %>
+    </div>
+    <div class="media-body">
+      <h4 class="media-heading"><%= a.name %><h4>
+      <%= a.role %>
+    </div>
+  </li>
+  <% end %>
+</ul>
 
 <nav>
   <ul class="pagination">
@@ -28,7 +43,7 @@
   </div>
 
   <ul class="list-group">
-  <% @result.genres.each do |genre| %>
+  <% @result.full_series_record.genres.each do |genre| %>
     <li class="list-group-item"><%= genre %></li>
   <% end %>
   </ul>

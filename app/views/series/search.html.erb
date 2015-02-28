@@ -1,17 +1,18 @@
-<h2>Search Results</h2>
-<h3>Query for <%= @query %></h3>
+<h2>Search Results for &quot;<%= @query %>&quot;</h2>
 
-<% @results.each do |resultItem| %>
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h4 class="panel-title"><%= link_to resultItem.seriesname, {:controller => "series", :action => "show", :seriesid => resultItem.seriesid} %></h4>
-  </div>
-  <div class="panel-body">
-    <% if resultItem.bannerpath_full %>
-      <%= image_tag(resultItem.bannerpath_full, :class => "center-block") %>
-    <% end %>
-    <br />
-    <%= resultItem.overview %>
-  </div>
+<div class="list-group">
+  <% @results.each do |resultItem| %>
+      <%= link_to({ controller: "series", action: "show", seriesid: resultItem.seriesid }, class: "list-group-item") do %>
+        <span class="badge"><%= resultItem.language %></span>
+        <h4 class="list-group-item-heading"><%= resultItem.seriesname %></h4>
+        <% unless resultItem.aliasnames.empty? %>
+            <h5 class="list-group-item-heading"><em><%= resultItem.aliasnames.join(", ") %></em></h5>
+        <% end %>
+        <% if resultItem.overview %>
+          <p class="list-group-item-text">
+            <%= resultItem.overview.length > 200 ? resultItem.overview[0, resultItem.overview.index(/\s/, 200)].strip + '...' : resultItem.overview.strip %>
+          </p>
+        <% end %>
+      <% end %>
+  <% end %>
 </div>
-<% end %>

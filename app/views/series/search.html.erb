@@ -10,7 +10,11 @@
         <% end %>
         <% if resultItem.overview %>
           <p class="list-group-item-text">
-            <%= resultItem.overview.length > 200 ? resultItem.overview[0, resultItem.overview.index(/\s/, 200)].strip + '...' : resultItem.overview.strip %>
+            <% if resultItem.overview.length > 200 %>
+              <%= resultItem.overview.index(/\s/, 200) ? resultItem.overview[0, resultItem.overview.index(/\s/, 200)].strip + '...' : resultItem.overview.strip %>
+            <% else %>
+              <%= resultItem.overview.strip %>
+            <% end %>
           </p>
         <% end %>
       <% end %>

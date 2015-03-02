@@ -1,51 +1,85 @@
 <div class="page-header">
-  <%= image_tag(@result.full_series_record.bannerpath_full, :class => "center-block", alt: @result.full_series_record.seriesname) %>
+  <%= image_tag(@full_rec.bannerpath_full, :class => "center-block", alt: @full_rec.seriesname) %>
 </div>
 
-<h3>Actors</h3>
-<ul class="list-group">
-  <% @result.actors.each do |a| %>
-  <li class="list-group-item">
-    <div class="media-left">
-      <%= image_tag(a.image_path_full, :height => 70, :width => 50) %>
-    </div>
-    <div class="media-body">
-      <h4 class="media-heading"><%= a.name %><h4>
-      <%= a.role %>
-    </div>
-  </li>
-  <% end %>
-</ul>
-
-<nav>
-  <ul class="pagination">
-    <li>
-      <a href="#" aria-label="Previous">
-        <span aria-hidden="true">&laquo;</span>
-      </a>
+<div role="tabpanel">
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active">
+      <a id="calendar_tab" href="#calendar" aria-controls="calendar" role="tab" data-toggle="tab">Calendar</a>
     </li>
-    <li><a href="#">1</a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">5</a></li>
-    <li>
-      <a href="#" aria-label="Next">
-        <span aria-hidden="true">&raquo;</span>
-      </a>
+    <li role="presentation">
+      <a id="actor_tab" href="#actors" aria-controls="actors" role="tab" data-toggle="tab">Actors</a>
+    </li>
+
+    <li role="presentation">
+      <a id="episode_tab" href="#episodes" aria-controls="episodes" role="tab" data-toggle="tab">Episodes</a>
+    </li>
+    <li role="presentation">
+      <a id="genres_tab" href="#genres" aria-controls="episodes" role="tab" data-toggle="tab">Genres</a>
     </li>
   </ul>
-</nav>
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Genres</h3>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane fade in active" id="calendar">
+      <div class="well">
+        <p>Calendar goes here</p>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="actors">
+      <ul class="list-group">
+        <% @result.actors.each do |a| %>
+        <li class="list-group-item">
+          <div class="media-left">
+            <%= image_tag(a.image_path_full, :height => 70, :width => 50) %>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading"><%= a.name %><h4>
+          </div>
+        </li>
+        <% end %>
+      </ul>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="episodes">
+      <nav>
+        <ul class="pagination">
+          <li>
+            <a href="#" aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+          <li><a href="#">1</a></li>
+          <li><a href="#">2</a></li>
+          <li><a href="#">3</a></li>
+          <li><a href="#">4</a></li>
+          <li><a href="#">5</a></li>
+          <li>
+            <a href="#" aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      <ul class="list-group">
+        <% @full_rec.episodes.each do |e| %>
+        <li class="list-group-item">
+          <div class="media-left">
+            <%= image_tag(e.imagepath_full) %>
+          </div>
+          <div class="media-body">
+            <h4 class="media-heading"><%= e.episodename %></h4>
+            <p><%= e.seasonnumber %></p>
+          </div>
+        </li>
+        <% end unless @full_rec.episodes.empty? %>
+      </ul>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="genres">
+      <ul class="list-group">
+      <% @full_rec.genres.each do |genre| %>
+        <li class="list-group-item"><%= genre %></li>
+      <% end %>
+      </ul>
+    </div>
   </div>
-
-  <ul class="list-group">
-  <% @result.full_series_record.genres.each do |genre| %>
-    <li class="list-group-item"><%= genre %></li>
-  <% end %>
-  </ul>
 </div>
 

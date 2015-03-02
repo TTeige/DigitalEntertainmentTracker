@@ -4,7 +4,7 @@ class SeriesController < ApplicationController
 		client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
     client.language = params[:lang] if params[:lang]
     @result = client.get_series_all(params[:seriesid])
-    puts @result.full_series_record.seriesid
+    @full_rec = @result.full_series_record
   end
 
   def search

@@ -22,6 +22,7 @@ class SeriesController < ApplicationController
         if e.seasonnumber == i
           s << e
         end
+      @seasons[i] = s
       end
     end
 

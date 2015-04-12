@@ -46,6 +46,8 @@ group :development, :test do
   gem 'rspec-rails'
 end
 
+gem 'dotenv-rails', :groups => [:development, :test]
+
 gem 'httparty', '>= 0.6.1'
 
 gem 'thetvdb_party'

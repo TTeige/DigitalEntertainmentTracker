@@ -208,3 +208,5 @@ ModelManifest.xml
 # Ignore erroneous bootstrap pre-compile files
 /public/assets/glyphicons*
 /public/assets/bootstrap/glyphicons*
+
+.env

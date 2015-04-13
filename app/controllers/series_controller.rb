@@ -15,4 +15,16 @@ class SeriesController < ApplicationController
     @results = client.search(@query)
   end
 
+  def subscribe
+    if current_user
+      seriesid = params[:seriesid]
+
+
+
+      redirect_to action: :show, seriesid: seriesid, status: 307
+    else
+      render :text => "You have to login to subscribe to a TV show!", :status => :unauthorized, content_type: 'text/plain'
+    end
+  end
+
 end

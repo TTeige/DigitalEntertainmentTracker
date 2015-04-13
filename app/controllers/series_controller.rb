@@ -1,5 +1,7 @@
 class SeriesController < ApplicationController
 
+  before_action :authenticate_user!, only: [:subscribe]
+
 	def show
 		client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
     client.language = params[:lang] if params[:lang]
@@ -16,19 +18,15 @@ class SeriesController < ApplicationController
   end
 
   def subscribe
-    if current_user
-      seriesid = params[:seriesid]
+    seriesid = params[:seriesid]
 
-      subscription = SeriesSubscription.find_by :user => current_user, :seriesid => seriesid
-      unless subscription
-        subscription = SeriesSubscription.new(:user => current_user, :seriesid => seriesid)
-        subscription.save
-      end
-
-      redirect_to action: :show, seriesid: seriesid, status: 307
-    else
-      render :text => "You have to login to subscribe to a TV show!", :status => :unauthorized, content_type: 'text/plain'
+    subscription = SeriesSubscription.find_by :user => current_user, :seriesid => seriesid
+    unless subscription
+      subscription = SeriesSubscription.new(:user => current_user, :seriesid => seriesid)
+      subscription.save
     end
+
+    redirect_to action: :show, seriesid: seriesid, status: 307
   end
 
 end

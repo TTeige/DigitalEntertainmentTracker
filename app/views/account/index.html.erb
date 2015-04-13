@@ -1,0 +1,13 @@
+<h1>Upcoming episodes</h1>
+
+<div class="page-header btn-toolbar" role="toolbar">
+  <div class="btn-group" role="group" aria-label="Account pages">
+    <%=	link_to "Upcoming", { :controller => :account, :action => :index }, { :class => "btn btn-primary" } %>
+    <%=	link_to "Subscriptions", { :controller => :account, :action => :subscriptions }, { :class => "btn btn-default" } %>
+    <%=	link_to "Settings", edit_user_registration_path, { :class => "btn btn-default" } %>
+  </div>
+</div>
+
+<div class="well">
+  Here comes a list of all upcoming episodes of all subscribed TV shows...
+</div>

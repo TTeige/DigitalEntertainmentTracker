@@ -4,32 +4,29 @@ class HomeController < ApplicationController
     SeriesSubscription.find_each do |subscription|
       most_tracked_list[subscription.seriesid]=most_tracked_list[subscription.seriesid]+1
     end
-    series = most_tracked_list.sort_by{ |seriesid, count| count }.reverse[0..5]
+    series = most_tracked_list.sort_by{ |seriesid, count| count }.reverse
     client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
-    @baseRecords = Array.new(series.length)
+    @upcoming = Array.new
     i = 0
-    # Populate list with base series records
+    u = 0
     while i < series.length
-      @baseRecords[i] = client.get_base_series_record(series[i][0])
+      full_record = client.get_series_all(series[i][0]).full_series_record
+      for j in 1..(full_record.episodes.length)
+        if(full_record.episodes[full_record.episodes.length-j].firstaired)
+          if(full_record.episodes[full_record.episodes.length-j].firstaired > Date.today)
+            @upcoming[u]=[full_record.seriesname,full_record.episodes[full_record.episodes.length-j].firstaired]
+            u+=1
+            if u==10
+              i = series.length
+              break
+            end
+          end
+        end
+      end
       i+=1
     end
-    @baseRecords.sort! { |x,y|
-      # Ensures that null entries are placed at the bottom of the list.
-      if y.airs_time==nil && x.airs_time==nil
-        0
-      elsif y.airs_time==nil
-        -1
-      elsif x.airs_time==nil
-        1
-      # Special case to always put daily on top. This might not be necessary as "Daily" seems to use todays date by default. However this groups them together at the top.
-      elsif x.airs_dayofweek == "Daily"
-        -1
-      elsif y.airs_dayofweek == "Daily"
-        1
-      # If no special case, sort by airs_time
-      else
-        x.airs_time <=> y.airs_time
-      end
+    @upcoming.sort! { |x,y|
+      x[1] <=> y[1]
     }
   end
 

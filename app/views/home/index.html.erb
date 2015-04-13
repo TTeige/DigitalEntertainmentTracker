@@ -1,21 +1,17 @@
 <h1>Welcome to the Digital Entertainment Tracker!</h1>
 <h3>These are our most tracked shows, log in to add and track your favourites.</h3>
-<table>
-	<tr>
-		<th>Series title</th>
-		<th>Air time</th>
-	</tr>
-<% @baseRecords.each do |baseRecord| %>
-	<tr>
-		<td><%=baseRecord.seriesname%></td>
-		<td><%=baseRecord.airs_dayofweek%>
-		</td>
-		<td>- <%if baseRecord.airs_time!=nil %>
-			<%= baseRecord.airs_time.hour.to_s.rjust(2, '0') %>:<%= baseRecord.airs_time.min.to_s.rjust(2, '0') %>
-			<% else %>
-			<%= ""%>
-			<% end %>
-		</td>
-	</tr>
+<%if true%>
+	<table>
+		<tr>
+			<th>Series title</th>
+			<th>Air date</th>
+		</tr>
+	<% @upcoming.each do |episode| %>
+		<tr>
+			<td><%=episode[0]%></td>
+			<td><%=episode[1]%>
+			</td>
+		</tr>
+	<% end %>
 <% end %>
 </table>

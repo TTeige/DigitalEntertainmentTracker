@@ -14,7 +14,6 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li><%= link_to "About", :controller => "home", :action => "about" %></li>
         <% if current_user %>
             <li><%= link_to "Edit", edit_user_registration_path %></li>
             <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
@@ -24,14 +23,14 @@
         <% end %>
       </ul>
       <div class="navbar-right">
-        <form class="navbar-form" action="/series/search" method="get" role="search">
+        <%= form_tag({ :controller => :series, :action => :search }, { :method => :get, :class => "navbar-form", :role => "search" }) do %>
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="Search TV Show" id="query" name="query"/>
+            <input type="text" class="form-control" placeholder="Search TV Show" id="query" name="query" />
             <span class="input-group-btn">
-                <button type ="submit" class ="btn btn-default"><span class ="glyphicon glyphicon-search"></span></button>
+              <button type="submit" class="btn btn-default" aria-label="Search"><span class="glyphicon glyphicon-search"></span></button>
             </span>
           </div>
-        </form>
+        <% end %>
       </div>
     </div>
   </div>
@@ -40,7 +39,7 @@
   <%= yield %>
   <hr />
   <footer>
-    <p>&copy; <%= Date.today.year %> - Digital Entertainment Tracker - Inf-2900 - Team5</p>
+    <p>&copy; <%= Date.today.year %> - Digital Entertainment Tracker - Inf-2900 - Team5 - <%= link_to "About", :controller => "home", :action => "about" %></p>
   </footer>
 </div>
 

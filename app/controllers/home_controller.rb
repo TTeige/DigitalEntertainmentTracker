@@ -1,14 +1,16 @@
 class HomeController < ApplicationController
   def index
-    client = TheTvDbParty::Client.new "5CB46CA60629B0DD"
-    # NOTE: This would actually be retrieved results from our cache database. This is only for demonstration purposes.
-    # The result is sliced for speed and request count limitation
-    searchResults = (client.search "The")[0..5]
-    @baseRecords = Array.new(searchResults.length)
+    most_tracked_list = Hash.new(0)
+    SeriesSubscription.find_each do |subscription|
+      most_tracked_list[subscription.seriesid]=most_tracked_list[subscription.seriesid]+1
+    end
+    series = most_tracked_list.sort_by{ |seriesid, count| count }.reverse[0..5]
+    client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
+    @baseRecords = Array.new(series.length)
     i = 0
     # Populate list with base series records
-    while i < searchResults.length
-      @baseRecords[i] = searchResults[i].get_base_series_record
+    while i < series.length
+      @baseRecords[i] = client.get_base_series_record(series[i][0])
       i+=1
     end
     @baseRecords.sort! { |x,y|

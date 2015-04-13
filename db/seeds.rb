@@ -8,6 +8,7 @@
 show_list = [
   80379,#TBBT
   82066,#Fringe
+  82066,#Fringe
   82459,#The mentalist
   72449 #Stargate
 ]

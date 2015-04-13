@@ -11,7 +11,7 @@
 		<td><%=baseRecord.airs_dayofweek%>
 		</td>
 		<td>- <%if baseRecord.airs_time!=nil %>
-			<%= baseRecord.airs_time.hour %>:<%= baseRecord.airs_time.min %>
+			<%= baseRecord.airs_time.hour.to_s.rjust(2, '0') %>:<%= baseRecord.airs_time.min.to_s.rjust(2, '0') %>
 			<% else %>
 			<%= ""%>
 			<% end %>

@@ -23,7 +23,7 @@
         <% end %>
       </ul>
       <div class="navbar-right">
-        <%= form_tag({ :controller => :series, :action => :search }, { :method => :get, :class => "navbar-form", :role => "search" }) do %>
+        <%= form_tag('/series/search', { :method => :get, :class => "navbar-form", :role => "search" }) do %>
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Search TV Show" id="query" name="query" />
             <span class="input-group-btn">

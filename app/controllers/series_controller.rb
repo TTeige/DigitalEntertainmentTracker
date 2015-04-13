@@ -19,7 +19,11 @@ class SeriesController < ApplicationController
     if current_user
       seriesid = params[:seriesid]
 
-
+      subscription = SeriesSubscription.find_by :user => current_user, :seriesid => seriesid
+      unless subscription
+        subscription = SeriesSubscription.new(:user => current_user, :seriesid => seriesid)
+        subscription.save
+      end
 
       redirect_to action: :show, seriesid: seriesid, status: 307
     else

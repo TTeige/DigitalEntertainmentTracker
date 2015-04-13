@@ -1,3 +1,4 @@
+<% if @result && @full_rec %>
 <div class="page-header">
   <%= image_tag(@full_rec.bannerpath_full, :class => "center-block", alt: @full_rec.seriesname) %>
 </div>
@@ -82,4 +83,8 @@
     </div>
   </div>
 </div>
-
+<% else %>
+<div class="alert alert-danger" role="alert">
+  <p>The details for the requested TV show could not be retrieved!</p>
+</div>
+<% end %>

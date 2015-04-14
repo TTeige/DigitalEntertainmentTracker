@@ -1,17 +1,18 @@
 <h1>Welcome to the Digital Entertainment Tracker!</h1>
 <h3>These are our most tracked shows, log in to add and track your favourites.</h3>
-<%if true%>
-	<table>
+<table class="table table-striped">
+	<thead>
 		<tr>
 			<th>Series title</th>
+			<th>Episode title</th>
 			<th>Air date</th>
 		</tr>
+	</thead>
 	<% @upcoming.each do |episode| %>
 		<tr>
-			<td><%=episode[0]%></td>
-			<td><%=episode[1]%>
-			</td>
+			<td><%=link_to episode[0], controller: "series", action: "show", seriesid: episode[3]%></td>
+			<td><%=episode[2]%></td>
+			<td><%=episode[1]%></td>
 		</tr>
 	<% end %>
-<% end %>
 </table>

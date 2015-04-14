@@ -23,6 +23,8 @@ class HomeController < ApplicationController
             #  i = series.length
             #  break
             #end
+          else
+            break
           end
         end
       end

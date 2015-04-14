@@ -9,5 +9,20 @@
 </div>
 
 <div class="well">
-  Here comes a list of all upcoming episodes of all subscribed TV shows...
+  <table class="table table-striped">
+	<thead>
+		<tr>
+			<th>Series title</th>
+			<th>Episode title</th>
+			<th>Air date</th>
+		</tr>
+	</thead>
+	<% @upcoming.each do |episode| %>
+		<tr>
+			<td><%=link_to episode[0], controller: "series", action: "show", seriesid: episode[3]%></td>
+			<td><%=episode[2] ? episode[2] : "TBA"%></td>
+			<td><%=episode[1]%></td>
+		</tr>
+	<% end %>
+</table>
 </div>

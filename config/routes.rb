@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  get ':controller(/:action(/:id))'
+  get ':controller(/:action)'
 
   root 'home#index'
 

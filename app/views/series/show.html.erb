@@ -1,6 +1,8 @@
 <% if @result && @full_rec %>
 <div class="page-header">
-  <%= image_tag(@full_rec.bannerpath_full, :class => "center-block", alt: @full_rec.seriesname) %>
+  <h1>
+    <%= image_tag(@full_rec.bannerpath_full, :class => "center-block", alt: @full_rec.seriesname) %>
+  </h1>
 </div>
 
 <div role="tabpanel">
@@ -43,36 +45,28 @@
     <div role="tabpanel" class="tab-pane fade" id="episodes">
       <nav>
         <ul class="pagination">
-          <li>
-            <a href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li><a href="#">1</a></li>
-          <li><a href="#">2</a></li>
-          <li><a href="#">3</a></li>
-          <li><a href="#">4</a></li>
-          <li><a href="#">5</a></li>
-          <li>
-            <a href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
+          <% @num_seasons.times do |i| %>
+            <li><a href="#<%= i %>" ><%= i %></a></li>
+          <% end %>
         </ul>
       </nav>
-      <ul class="list-group">
-        <% @full_rec.episodes.each do |e| %>
-        <li class="list-group-item">
-          <div class="media-left">
-            <%= image_tag(e.imagepath_full) %>
-          </div>
-          <div class="media-body">
-            <h4 class="media-heading"><%= e.episodename %></h4>
-            <p><%= e.seasonnumber %></p>
-          </div>
-        </li>
-        <% end unless @full_rec.episodes.empty? %>
-      </ul>
+      <% @seasons.each_with_index do |s, i| %>
+        <ul class="list-group" id=<%= i %> >
+          <% s.each do |e| %>
+            <li class="list-group-item">
+            <% if e.imagepath_full %>
+              <div class="media-left">
+                <%= image_tag(e.imagepath_full) %>
+              </div>
+            <% end %>
+              <div class="media-body">
+                <h4 class="media-heading"><%= e.episodename %></h4>
+                <p><%= e.overview %></p>
+              </div>
+            </li>
+        <% end unless s.empty? %>
+        </ul>
+      <% end %>
     </div>
     <div role="tabpanel" class="tab-pane fade" id="genres">
       <ul class="list-group">

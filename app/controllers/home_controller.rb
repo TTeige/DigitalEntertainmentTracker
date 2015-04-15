@@ -8,7 +8,6 @@ class HomeController < ApplicationController
     client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
     @upcoming = Array.new
     i = 0
-    #u = 0
     while i < series.length
       full_record = client.get_series_all(series[i][0]).full_series_record
       for j in 1..(full_record.episodes.length)
@@ -18,11 +17,6 @@ class HomeController < ApplicationController
                             full_record.episodes[full_record.episodes.length-j].firstaired,
                             full_record.episodes[full_record.episodes.length-j].episodename,
                             full_record.seriesid])
-            #u+=1
-            #if u==10
-            #  i = series.length
-            #  break
-            #end
           else
             break
           end

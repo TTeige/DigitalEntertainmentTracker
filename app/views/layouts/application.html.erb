@@ -15,7 +15,7 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <% if current_user %>
-            <li><%=	link_to "Account", :controller => :account, :action => :index %></li>
+            <li><%=	link_to "Account", '/account/index' %></li>
             <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
         <% else %>
             <li><%= link_to "Sign In", new_user_session_path %></li>

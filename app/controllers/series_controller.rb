@@ -29,4 +29,8 @@ class SeriesController < ApplicationController
     redirect_to action: :show, seriesid: seriesid, status: 307
   end
 
+  def unsubscribe
+
+  end
+
 end

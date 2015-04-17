@@ -57,5 +57,5 @@ gem 'tzinfo-data'
 gem 'bootstrap-sass'
 
 gem 'devise'
-
+gem 'momentjs-rails'
 gem 'fullcalendar-rails'

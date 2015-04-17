@@ -8,7 +8,7 @@
 <div role="tabpanel">
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active">
-      <a id="calendar_tab" href="#calendar" aria-controls="calendar" role="tab" data-toggle="tab">Calendar</a>
+      <a id="calendar_tab" href="#calendar_panel" aria-controls="calendar_panel" role="tab" data-toggle="tab">Calendar</a>
     </li>
     <li role="presentation">
       <a id="actor_tab" href="#actors" aria-controls="actors" role="tab" data-toggle="tab">Actors</a>
@@ -23,23 +23,8 @@
   </ul>
 
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane fade in active" id="calendar">
-      <ul class="list-group">
-      <% @next_airing_list.each do |e| %>
-        <li class="list-group-item">
-          <h4>
-            <% if e.episodename %>
-              <%= e.episodename %>
-            <% else %>
-              TBA
-            <% end %>
-          </h4>
-          <p>
-            <%= e.firstaired %>
-          </p>
-        </li>
-      <% end %>
-      </ul>
+    <div role="tabpanel" class="tab-pane fade in active" id="calendar_panel">
+      <div id="calendar" onload="this.fullCalendar();"></div>
     </div>
     <div role="tabpanel" class="tab-pane fade" id="actors">
       <ul class="list-group">

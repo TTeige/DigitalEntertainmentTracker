@@ -24,7 +24,7 @@
 
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane fade in active" id="calendar_panel">
-      <div id="calendar" onload="this.fullCalendar();"></div>
+      <div class="fullCalendar"></div>
     </div>
     <div role="tabpanel" class="tab-pane fade" id="actors">
       <ul class="list-group">
@@ -34,7 +34,7 @@
             <%= image_tag(a.image_path_full, :height => 70, :width => 50) %>
           </div>
           <div class="media-body">
-            <h4 class="media-heading"><%= a.name %><h4>
+            <h4 class="media-heading"><%= a.name %></h4>
           </div>
         </li>
         <% end %>

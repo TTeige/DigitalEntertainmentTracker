@@ -16,3 +16,13 @@
 //= require_tree .
 //= require moment
 //= require fullcalendar
+
+$(document).ready(function() {
+    console.log($("div.fullCalendar"));
+    if ($("div.fullCalendar").length){
+        console.log("found calendar... Loading FullCalendar.");
+        $("div.fullCalendar").fullCalendar();
+        console.log("Executed full calendar successfully.");
+    }
+})
+

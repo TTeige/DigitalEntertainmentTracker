@@ -8,7 +8,7 @@
   </div>
 </div>
 
-<div class="well">
+<div>
   <table class="table table-striped">
 	<thead>
 		<tr>
@@ -19,9 +19,9 @@
 	</thead>
 	<% @upcoming.each do |episode| %>
 		<tr>
-			<td><%=link_to episode[0], controller: "series", action: "show", seriesid: episode[3]%></td>
-			<td><%=episode[2] ? episode[2] : "TBA"%></td>
-			<td><%=episode[1]%></td>
+			<td><%= link_to episode[0], controller: "series", action: "show", seriesid: episode[3] %></td>
+			<td><%= episode[2] ? episode[2] : "TBA" %></td>
+			<td><%= episode[1] ? episode[1].strftime('%A, %B %-d, %Y') : "TBA" %></td>
 		</tr>
 	<% end %>
 </table>

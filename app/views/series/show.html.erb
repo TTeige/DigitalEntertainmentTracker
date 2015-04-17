@@ -46,27 +46,45 @@
       <nav>
         <ul class="pagination">
           <% @num_seasons.times do |i| %>
-            <li><a href="#<%= i %>" ><%= i %></a></li>
+            <li><a data-toggle="collapse" href="#collapse<%=  + i %>" aria-expanded="true" aria-controls="collapse<%= + i %>"><%= i %></a></li>
           <% end %>
         </ul>
       </nav>
+      <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
       <% @seasons.each_with_index do |s, i| %>
-        <ul class="list-group" id=<%= i %> >
-          <% s.each do |e| %>
-            <li class="list-group-item">
-            <% if e.imagepath_full %>
-              <div class="media-left">
-                <%= image_tag(e.imagepath_full) %>
-              </div>
-            <% end %>
-              <div class="media-body">
-                <h4 class="media-heading"><%= e.episodename %></h4>
-                <p><%= e.overview %></p>
-              </div>
-            </li>
-        <% end unless s.empty? %>
-        </ul>
-      <% end %>
+        <div class="panel panel-default">
+          <div class="panel-heading" role="tab" id="heading<%= + i %>">
+            <h4 class="panel-title">
+              <a data-toggle="collapse" href="#collapse<%= + i %>" aria-expanded="false" aria-controls="collapse<%= + i %>">
+              <% if i == 0 %>
+                <h4>Specials</h4>
+              <% else %>
+                <h4>Season <%= i %></h4>
+              <% end %>
+              </a>
+            </h4>
+          </div>
+          <div id="collapse<%= + i %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<%= + i %>">
+            <div class="list-group" id=<%= i %> >
+                <% s.each do |e| %>
+                  <li class="list-group-item">
+                  <% if e.imagepath_full %>
+                    <div class="media-left">
+                      <%= image_tag(e.imagepath_full) %>
+                    </div>
+                  <% end %>
+                    <div class="media-body">
+                      <h4 class="media-heading"><%= e.episodename %></h4>
+                      <p>Episode <%= e.episodenumber %></p>
+                      <p><%= e.overview %></p>
+                    </div>
+                  </li>
+              <% end unless s.empty? %>
+            </div>
+          </div>
+        </div>
+        <% end %>
+      </div>
     </div>
     <div role="tabpanel" class="tab-pane fade" id="genres">
       <ul class="list-group">

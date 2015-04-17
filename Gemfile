@@ -57,3 +57,5 @@ gem 'tzinfo-data'
 gem 'bootstrap-sass'
 
 gem 'devise'
+
+gem 'fullcalendar-rails'

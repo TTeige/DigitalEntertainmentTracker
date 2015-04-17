@@ -8,11 +8,21 @@ class SeriesController < ApplicationController
     @result = client.get_series_all(params[:seriesid])
     @full_rec = @result.full_series_record
 
+
+    @next_airing_list = Array.new
     @num_seasons = 0
     @full_rec.episodes.each do |e|
       if e.seasonnumber > @num_seasons
         @num_seasons = e.seasonnumber
       end
+
+      if @next_airing_list.size > 10
+        next
+      end
+      if e.firstaired > Date.today
+        @next_airing_list << e
+      end
+
     end
 
     @num_seasons += 1
@@ -27,6 +37,8 @@ class SeriesController < ApplicationController
       @seasons[i] = s
       end
     end
+
+
 
   end
 

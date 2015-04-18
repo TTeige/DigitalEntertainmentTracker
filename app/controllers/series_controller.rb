@@ -37,10 +37,8 @@ class SeriesController < ApplicationController
       @seasons[i] = s
       end
     end
-
-
-
   end
+
 
   def search
     client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])

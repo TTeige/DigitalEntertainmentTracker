@@ -30,9 +30,11 @@
       <ul class="list-group">
         <% @result.actors.each do |a| %>
         <li class="list-group-item">
-          <div class="media-left">
-            <%= image_tag(a.image_path_full, :height => 70, :width => 50) %>
-          </div>
+          <% if a.image_path_full %>
+            <div class="media-left">
+              <%= image_tag(a.image_path_full, :height => 70, :width => 50) %>
+            </div>
+          <% end %>
           <div class="media-body">
             <h4 class="media-heading"><%= a.name %></h4>
           </div>

@@ -24,7 +24,11 @@
 
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane fade in active" id="calendar_panel">
-      <div class="fullCalendar"></div>
+      <% if not @next_airing_list.empty? %>
+        <div class="fullCalendar"></div>
+      <% else %>
+        <h4>No upcoming episodes</h4>
+      <% end %>
     </div>
     <div role="tabpanel" class="tab-pane fade" id="actors">
       <ul class="list-group">

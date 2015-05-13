@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "events/edit", type: :view do
   before(:each) do
     @event = assign(:event, Event.create!(
+      :seriesid => 1,
       :title => "MyString",
       :description => "MyText"
     ))
@@ -12,6 +13,8 @@ RSpec.describe "events/edit", type: :view do
     render
 
     assert_select "form[action=?][method=?]", event_path(@event), "post" do
+
+      assert_select "input#event_seriesid[name=?]", "event[seriesid]"
 
       assert_select "input#event_title[name=?]", "event[title]"
 

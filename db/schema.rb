@@ -11,9 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150502123039) do
+ActiveRecord::Schema.define(version: 20150505120136) do
 
   create_table "events", force: :cascade do |t|
+    t.integer  "seriesid"
     t.string   "title"
     t.text     "description"
     t.datetime "start_time"

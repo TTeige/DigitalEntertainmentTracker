@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <th>Seriesid</th>
       <th>Title</th>
       <th>Description</th>
       <th>Start time</th>
@@ -16,6 +17,7 @@
   <tbody>
     <% @events.each do |event| %>
       <tr>
+        <td><%= event.seriesid %></td>
         <td><%= event.title %></td>
         <td><%= event.description %></td>
         <td><%= event.start_time %></td>

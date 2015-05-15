@@ -50,10 +50,13 @@ gem 'dotenv-rails', :groups => [:development, :test]
 
 gem 'httparty', '>= 0.6.1'
 
-gem 'thetvdb_party'
+gem 'thetvdb_party', :path => './thetvdb_party'
 
 gem 'tzinfo-data'
 
 gem 'bootstrap-sass'
 
 gem 'devise'
+
+# Gem to run tasks at specified intervals. For updating our cache database
+gem 'whenever'

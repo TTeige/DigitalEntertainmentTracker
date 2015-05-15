@@ -1,17 +1,15 @@
 xml.instruct! :xml, :version => "1.0" 
 xml.rss :version => "2.0" do
   xml.channel do
-    xml.title "Your Blog Title"
-    xml.description "A blog about software and chocolate"
-    xml.link posts_url
+    xml.title "Series"
+    xml.description "Upcomming"
+    xml.link feed_url(.rss)
 
-    for post in @posts
+    for episode in @upcoming
       xml.item do
-        xml.title post.title
-        xml.description post.content
-        xml.pubDate post.posted_at.to_s(:rfc822)
-        xml.link post_url(post)
-        xml.guid post_url(post)
+        xml.title episode[0]
+        xml.episodeTitle episode[2]
+        xml.airDate episode[1]
       end
     end
   end

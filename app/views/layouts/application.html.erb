@@ -20,8 +20,9 @@
             <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
         <% else %>
             <li><%= link_to "Sign In", new_user_session_path %></li>
-            <li><%= link_to "RSS Feed", feed_path %></li>
+        
         <% end %>
+            <li><%= link_to "RSS Feed", feed_path(:rss) %></li>
       </ul>
       <div class="navbar-right">
         <%= form_tag('/series/search', { :method => :get, :class => "navbar-form", :role => "search" }) do %>

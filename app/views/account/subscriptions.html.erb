@@ -9,7 +9,7 @@
 </div>
 
 <div class="panel-group">
-  <% @subscribed_series_records.each do |resultItem| %>
+  <% @subscribed_series.each do |resultItem| %>
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
           <h3 class="panel-title pull-left"><%= link_to resultItem.seriesname, controller: "series", action: "show", seriesid: resultItem.seriesid %></h3>

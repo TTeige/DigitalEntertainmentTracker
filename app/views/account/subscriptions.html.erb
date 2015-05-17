@@ -9,7 +9,7 @@
 </div>
 
 <div class="panel-group">
-  <% @subscribed_series_records.each do |resultItem| %>
+  <% @subscribed_series.each do |resultItem| %>
       <div class="panel panel-default">
         <div class="panel-heading clearfix">
           <h3 class="panel-title pull-left"><%= link_to resultItem.seriesname, controller: "series", action: "show", seriesid: resultItem.seriesid %></h3>
@@ -17,12 +17,12 @@
             <%= link_to "Unsubscribe", :controller => :series, :action => :unsubscribe %>
           </div>
         </div>
-        <% if resultItem.overview && resultItem.overview.class == String %>
+        <% if resultItem.description && resultItem.description.class == String %>
             <div class="panel-body">
-              <% if resultItem.overview.length > 200 %>
-                  <%= resultItem.overview.index(/\s/, 200) ? resultItem.overview[0, resultItem.overview.index(/\s/, 200)].strip + '...' : resultItem.overview.strip %>
+              <% if resultItem.description.length > 200 %>
+                  <%= resultItem.description.index(/\s/, 200) ? resultItem.description[0, resultItem.description.index(/\s/, 200)].strip + '...' : resultItem.description.strip %>
               <% else %>
-                  <%= resultItem.overview.strip %>
+                  <%= resultItem.description.strip %>
               <% end %>
             </div>
         <% end %>

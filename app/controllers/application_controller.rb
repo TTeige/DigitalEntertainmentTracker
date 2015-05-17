@@ -57,7 +57,7 @@ class ApplicationController < ActionController::Base
     if seriesName.nil?
       seriesName,_ = initialize_cache_and_return_data(seriesid)
     end
-    return seriesName.seriesname
+    return seriesName
   end
   
   # Internal function to look up things in the cache. Adds episodes without checking if they already exists! 

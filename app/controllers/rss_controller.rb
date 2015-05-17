@@ -8,13 +8,14 @@ class RssController < ApplicationController
       full_record = client.get_series_all(subscr.seriesid).full_series_record
       for j in 1..(full_record.episodes.length)
         if(full_record.episodes[full_record.episodes.length-j].firstaired)
-          if(full_record.episodes[full_record.episodes.length-j].firstaired > Date.today)
+          if(full_record.episodes[full_record.episodes.length-j].firstaired > Date.today - 10)
           	episodename = full_record.episodes[full_record.episodes.length-j].episodename
           
           	if (!episodename)
           		episodename = "TBA"
           	end 
-          	overview = full_record.episodes[j].overview
+ 
+          	overview = full_record.episodes[full_record.episodes.length - j].overview
           	if (!overview)
           		overview = "No released episode info!"
           	end
@@ -24,7 +25,7 @@ class RssController < ApplicationController
                             episodename,
                             full_record.seriesid,
                             overview,
-                            full_record.episodes[j].imagepath_full])
+                            full_record.episodes[full_record.episodes.length - j].imagepath_full])
 
             				
 

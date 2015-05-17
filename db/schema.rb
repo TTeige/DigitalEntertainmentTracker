@@ -11,27 +11,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150517215934) do
+ActiveRecord::Schema.define(version: 20150517230007) do
 
-  create_table "episode_air_informations", force: :cascade do |t|
+  create_table "episode_informations", force: :cascade do |t|
     t.integer  "seriesid"
-    t.integer  "episodeid"
     t.string   "episodename"
-    t.datetime "airdate"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.integer  "episodenum"
-    t.integer  "seasonnum"
-    t.text     "description"
-    t.string   "banner"
+    t.datetime "firstaired"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "episodenumber"
+    t.integer  "seasonnumber"
+    t.text     "overview"
+    t.string   "imagepath_full"
   end
 
-  create_table "series_names", force: :cascade do |t|
+  create_table "series_informations", force: :cascade do |t|
     t.integer  "seriesid"
     t.string   "seriesname"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.text     "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text     "overview"
     t.string   "genres"
   end
 

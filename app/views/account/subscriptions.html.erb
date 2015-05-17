@@ -17,12 +17,12 @@
             <%= link_to "Unsubscribe", :controller => :series, :action => :unsubscribe %>
           </div>
         </div>
-        <% if resultItem.description && resultItem.description.class == String %>
+        <% if resultItem.overview && resultItem.overview.class == String %>
             <div class="panel-body">
-              <% if resultItem.description.length > 200 %>
-                  <%= resultItem.description.index(/\s/, 200) ? resultItem.description[0, resultItem.description.index(/\s/, 200)].strip + '...' : resultItem.description.strip %>
+              <% if resultItem.overview.length > 200 %>
+                  <%= resultItem.overview.index(/\s/, 200) ? resultItem.overview[0, resultItem.overview.index(/\s/, 200)].strip + '...' : resultItem.overview.strip %>
               <% else %>
-                  <%= resultItem.description.strip %>
+                  <%= resultItem.overview.strip %>
               <% end %>
             </div>
         <% end %>

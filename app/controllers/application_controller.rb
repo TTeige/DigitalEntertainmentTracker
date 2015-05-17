@@ -4,60 +4,44 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   
   helper_method :get_upcoming_episodes
-  helper_method :get_name_for_seriesid
+  helper_method :get_information_for_seriesid
   
   # Function to look for a series in the cache and retrieve all upcoming episodes
-  # Returns: Array of arrays with data for an episode, each subarray is one episode.
-  # Subarray order:
-  # 0 = series name
-  # 1 = episode air date
-  # 2 = episode name (or blank if unknown)
-  # 3 = series ID
-  # 4 = episode number in season
-  # 5 = season number in series
-  # 6 = episode description
-  # 7 = full path to banner art for episode (or nil if not available)
+  # Returns: Array of EpisodeInformation models
   def get_upcoming_episodes(seriesid)
     # See if we already have both a name for the series, if there exists a name episodes should be updated
-    seriesName = SeriesName.find_by seriesid: seriesid
-    upcomingEpisodes = EpisodeAirInformation.where(seriesid: seriesid)
-    if seriesName.nil?
-      seriesName,upcomingEpisodes = initialize_cache_and_return_data(seriesid)
+    seriesInformation = SeriesInformation.find_by seriesid: seriesid
+    upcomingEpisodes = EpisodeInformation.where(seriesid: seriesid)
+    if seriesInformation.nil?
+      seriesInformation,upcomingEpisodes = initialize_cache_and_return_data(seriesid)
     end
     # If, for some reason, neither database lookup or cache updating didn't return an array, create one.
     if upcomingEpisodes.nil?
       upcomingEpisodes = Array.new
     end
-    upcoming_episodes_for_view = Array.new
+    upcoming_episodes_for_return = Array.new
     # Go through list of episodes found
     for j in 0..(upcomingEpisodes.length-1)
       # Check if episode is still in the future
-      if(upcomingEpisodes[j].airdate > Date.today.prev_day)
-        upcoming_episodes_for_view.push([seriesName.seriesname,
-                              upcomingEpisodes[j].airdate,
-                              upcomingEpisodes[j].episodename,
-                              seriesid,
-                              upcomingEpisodes[j].episodenum,
-                              upcomingEpisodes[j].seasonnum,
-                              upcomingEpisodes[j].description,
-                              upcomingEpisodes[j].banner])
+      if(upcomingEpisodes[j].firstaired > Date.today.prev_day)
+        upcoming_episodes_for_return.push(upcomingEpisodes[j])
       else
         # If not, delete it (should be safe to do here as the data is only removed from database, not from array)
         # NOTE: This is the only place old episodes are pruned out when updates are not occurring. This should probably also be in a cleanup function. 
         upcomingEpisodes[j].delete
       end
     end
-    return upcoming_episodes_for_view
+    return upcoming_episodes_for_return
   end
   
   # Function to get series name from on id by looking in the cache database. If the name is not found, go fetch the name (and update the cache at the same time).
-  # NOTE: SeriesName is actually a model containing more information than just the name, see db/schema.rb for more information
-  def get_name_for_seriesid(seriesid)
-    seriesName = SeriesName.find_by seriesid: seriesid
-    if seriesName.nil?
-      seriesName,_ = initialize_cache_and_return_data(seriesid)
+  # NOTE: SeriesInformation is actually a model containing more information than just the name, see db/schema.rb for more information
+  def get_information_for_seriesid(seriesid)
+    seriesInformation = SeriesInformation.find_by seriesid: seriesid
+    if seriesInformation.nil?
+      seriesInformation,_ = initialize_cache_and_return_data(seriesid)
     end
-    return seriesName
+    return seriesInformation
   end
   
   # Internal function to look up things in the cache. Adds episodes without checking if they already exists! 
@@ -65,35 +49,35 @@ class ApplicationController < ActionController::Base
     # Create a TvDBParty client and fetch the episode record
     client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
     full_record = client.get_series_all(seriesid).full_series_record
-    seriesName = SeriesName.new
-    seriesName.seriesid = seriesid
-    seriesName.seriesname = full_record.seriesname
-    seriesName.description = full_record.overview
-    seriesName.genres = full_record.genres
-    seriesName.save
+    seriesInformation = SeriesInformation.new
+    seriesInformation.seriesid = seriesid
+    seriesInformation.seriesname = full_record.seriesname
+    seriesInformation.overview = full_record.overview
+    seriesInformation.genres = full_record.genres
+    seriesInformation.save
     upcomingEpisodes = Array.new
     # Look through the episode record and see if we have any records that are not added
     for j in 1..(full_record.episodes.length)
       if(full_record.episodes[full_record.episodes.length-j].firstaired)
         if(full_record.episodes[full_record.episodes.length-j].firstaired > Date.today.prev_day)
           # If we find an episode which hasn't aired yet, or airs today, add it to the list.
-          episodeAirInformation = EpisodeAirInformation.new
-          episodeAirInformation.seriesid = seriesid
-          episodeAirInformation.episodeid = full_record.episodes[full_record.episodes.length-j].id
-          episodeAirInformation.episodename = full_record.episodes[full_record.episodes.length-j].episodename
-          episodeAirInformation.airdate = full_record.episodes[full_record.episodes.length-j].firstaired
-          episodeAirInformation.episodenum = full_record.episodes[full_record.episodes.length-j].episodenumber
-          episodeAirInformation.seasonnum = full_record.episodes[full_record.episodes.length-j].seasonnumber
-          episodeAirInformation.description = full_record.episodes[full_record.episodes.length-j].overview
-          episodeAirInformation.banner = full_record.episodes[full_record.episodes.length-j].imagepath_full
-          episodeAirInformation.save
-          upcomingEpisodes.push(episodeAirInformation)
+          episodeInformation = EpisodeInformation.new
+          episodeInformation.seriesid = seriesid
+          episodeInformation.id = full_record.episodes[full_record.episodes.length-j].id
+          episodeInformation.episodename = full_record.episodes[full_record.episodes.length-j].episodename
+          episodeInformation.firstaired = full_record.episodes[full_record.episodes.length-j].firstaired
+          episodeInformation.episodenumberber = full_record.episodes[full_record.episodes.length-j].episodenumber
+          episodeInformation.seasonnumberber = full_record.episodes[full_record.episodes.length-j].seasonnumber
+          episodeInformation.overview = full_record.episodes[full_record.episodes.length-j].overview
+          episodeInformation.imagepath_full = full_record.episodes[full_record.episodes.length-j].imagepath_full
+          episodeInformation.save
+          upcomingEpisodes.push(episodeInformation)
         else
           break
         end
       end
     end
-    return seriesName,upcomingEpisodes
+    return seriesInformation,upcomingEpisodes
   end
   
   # Function to be added to cron-jobs by whenever gem
@@ -134,41 +118,41 @@ class ApplicationController < ActionController::Base
     for seriesid in seriesToUpdate
       # Get information about the show
       full_record = client.get_series_all(seriesid).full_series_record
-      seriesName = SeriesName.find_by seriesid: seriesid
+      seriesInformation = SeriesInformation.find_by seriesid: seriesid
       changed = false
-      if(seriesName.seriesname != full_record.seriesname)
-        seriesName.seriesname = full_record.seriesname
+      if(seriesInformation.seriesname != full_record.seriesname)
+        seriesInformation.seriesname = full_record.seriesname
         changed = true
       end
-      if(seriesName.description != full_record.overview)
-        seriesName.description = full_record.overview
+      if(seriesInformation.overview != full_record.overview)
+        seriesInformation.overview = full_record.overview
         changed = true
       end
-      if(seriesName.genres != full_record.genres)
-        seriesName.genres = full_record.genres
+      if(seriesInformation.genres != full_record.genres)
+        seriesInformation.genres = full_record.genres
         changed = true
       end
       if(changed)
-        seriesName.save
+        seriesInformation.save
       end
       # Remove all episodes we have about the show
-      EpisodeAirInformation.where(seriesid: seriesid).destroy_all
+      EpisodeInformation.where(seriesid: seriesid).destroy_all
       
       # Go through the data and add in new episodes
       for j in 1..(full_record.episodes.length)
         if(full_record.episodes[full_record.episodes.length-j].firstaired)
           if(full_record.episodes[full_record.episodes.length-j].firstaired > Date.today.prev_day)
             # If we find an episode which hasn't aired yet, or airs today, add it to the list.
-            episodeAirInformation = EpisodeAirInformation.new
-            episodeAirInformation.seriesid = seriesid
-            episodeAirInformation.episodeid = full_record.episodes[full_record.episodes.length-j].id
-            episodeAirInformation.episodename = full_record.episodes[full_record.episodes.length-j].episodename
-            episodeAirInformation.airdate = full_record.episodes[full_record.episodes.length-j].firstaired
-            episodeAirInformation.episodenum = full_record.episodes[full_record.episodes.length-j].episodenumber
-            episodeAirInformation.seasonnum = full_record.episodes[full_record.episodes.length-j].seasonnumber
-            episodeAirInformation.description = full_record.episodes[full_record.episodes.length-j].overview
-            episodeAirInformation.banner = full_record.episodes[full_record.episodes.length-j].imagepath_full
-            episodeAirInformation.save
+            episodeInformation = EpisodeInformation.new
+            episodeInformation.seriesid = seriesid
+            episodeInformation.id = full_record.episodes[full_record.episodes.length-j].id
+            episodeInformation.episodename = full_record.episodes[full_record.episodes.length-j].episodename
+            episodeInformation.firstaired = full_record.episodes[full_record.episodes.length-j].firstaired
+            episodeInformation.episodenumber = full_record.episodes[full_record.episodes.length-j].episodenumber
+            episodeInformation.seasonnumber = full_record.episodes[full_record.episodes.length-j].seasonnumber
+            episodeInformation.overview = full_record.episodes[full_record.episodes.length-j].overview
+            episodeInformation.imagepath_full = full_record.episodes[full_record.episodes.length-j].imagepath_full
+            episodeInformation.save
           else
             # As we go backwards through the episodes array we can break on the first episode which has already aired
             break

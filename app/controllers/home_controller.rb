@@ -8,7 +8,11 @@ class HomeController < ApplicationController
     @upcoming = Array.new
     i = 0
     while i < series.length
-      @upcoming.concat(get_upcoming_episodes(series[i][0]))
+      seriesInformation = get_information_for_seriesid(series[i][0])
+      episodes = get_upcoming_episodes(series[i][0])
+      for episode in episodes
+        @upcoming.push([seriesInformation.seriesname,episode.firstaired,episode.episodename,series[i][0]])
+      end
       i+=1
     end
     @upcoming.sort! { |x,y|

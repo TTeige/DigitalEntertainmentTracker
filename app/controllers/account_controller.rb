@@ -6,7 +6,11 @@ class AccountController < ApplicationController
     @upcoming = Array.new
     series_subscriptions = current_user.series_subscriptions
     for subscr in current_user.series_subscriptions.map
-      @upcoming.concat(get_upcoming_episodes(subscr.seriesid))
+      seriesInformation = get_information_for_seriesid(subscr.seriesid)
+      episodes = get_upcoming_episodes(subscr.seriesid)
+      for episode in episodes
+        @upcoming.push([seriesInformation.seriesname,episode.firstaired,episode.episodename,subscr.seriesid])
+      end
     end
     @upcoming.sort! { |x,y|
       x[1] <=> y[1]
@@ -19,7 +23,7 @@ class AccountController < ApplicationController
 
     @subscribed_series = series_subscriptions.map do |subscr|
       #client.get_base_series_record subscr.seriesid
-      get_name_for_seriesid(subscr.seriesid)
+      get_information_for_seriesid(subscr.seriesid)
     end
   end
 end

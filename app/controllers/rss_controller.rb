@@ -25,8 +25,9 @@ class RssController < ApplicationController
                             episodename,
                             full_record.seriesid,
                             overview,
-                            full_record.episodes[full_record.episodes.length - j].imagepath_full])
-
+                            full_record.episodes[full_record.episodes.length - j].imagepath_full,
+                            full_record.episodes[full_record.episodes.length - j].episodenumber,
+                            full_record.episodes[full_record.episodes.length - j].seasonnumber])
             				
 
           else

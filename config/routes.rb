@@ -1,8 +1,7 @@
 Rails.application.routes.draw do
-  devise_for :users
+   devise_for :users, controllers: { registrations: 'registrations' }  
   get ':controller(/:action)'
   get 'feed' => 'rss#feed'
-
   root 'home#index'
 
 

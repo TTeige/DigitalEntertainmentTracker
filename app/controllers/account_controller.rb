@@ -18,11 +18,9 @@ class AccountController < ApplicationController
   end
 
   def subscriptions
-    # client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
     series_subscriptions = current_user.series_subscriptions
 
     @subscribed_series = series_subscriptions.map do |subscr|
-      #client.get_base_series_record subscr.seriesid
       get_information_for_seriesid(subscr.seriesid)
     end
   end

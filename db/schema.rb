@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150513172633) do
+ActiveRecord::Schema.define(version: 20150517215934) do
 
   create_table "episode_air_informations", force: :cascade do |t|
     t.integer  "seriesid"
@@ -20,13 +20,19 @@ ActiveRecord::Schema.define(version: 20150513172633) do
     t.datetime "airdate"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.integer  "episodenum"
+    t.integer  "seasonnum"
+    t.text     "description"
+    t.string   "banner"
   end
 
   create_table "series_names", force: :cascade do |t|
     t.integer  "seriesid"
     t.string   "seriesname"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.text     "description"
+    t.string   "genres"
   end
 
   create_table "series_subscriptions", force: :cascade do |t|

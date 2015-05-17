@@ -20,5 +20,6 @@
 # Learn more: http://github.com/javan/whenever
 
 every 12.hours do
+  # Update the cache, set to last update 13 hours ago just to be sure we don't get any weird overlapping issues (if we did 12 hours we could end up with a gap between updates where episodes could escape us).
   runner "ApplicationController.update_cache((Time.new()-13*60*60).to_i)"
 end

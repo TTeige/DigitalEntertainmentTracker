@@ -61,17 +61,7 @@ class ApplicationController < ActionController::Base
       if(full_record.episodes[full_record.episodes.length-j].firstaired)
         if(full_record.episodes[full_record.episodes.length-j].firstaired > Date.today.prev_day)
           # If we find an episode which hasn't aired yet, or airs today, add it to the list.
-          episodeInformation = EpisodeInformation.new
-          episodeInformation.seriesid = seriesid
-          episodeInformation.id = full_record.episodes[full_record.episodes.length-j].id
-          episodeInformation.episodename = full_record.episodes[full_record.episodes.length-j].episodename
-          episodeInformation.firstaired = full_record.episodes[full_record.episodes.length-j].firstaired
-          episodeInformation.episodenumberber = full_record.episodes[full_record.episodes.length-j].episodenumber
-          episodeInformation.seasonnumberber = full_record.episodes[full_record.episodes.length-j].seasonnumber
-          episodeInformation.overview = full_record.episodes[full_record.episodes.length-j].overview
-          episodeInformation.imagepath_full = full_record.episodes[full_record.episodes.length-j].imagepath_full
-          episodeInformation.save
-          upcomingEpisodes.push(episodeInformation)
+          upcomingEpisodes.push(new_episode_information_from_episode_record(full_record.episodes[full_record.episodes.length-j]))
         else
           break
         end
@@ -143,16 +133,7 @@ class ApplicationController < ActionController::Base
         if(full_record.episodes[full_record.episodes.length-j].firstaired)
           if(full_record.episodes[full_record.episodes.length-j].firstaired > Date.today.prev_day)
             # If we find an episode which hasn't aired yet, or airs today, add it to the list.
-            episodeInformation = EpisodeInformation.new
-            episodeInformation.seriesid = seriesid
-            episodeInformation.id = full_record.episodes[full_record.episodes.length-j].id
-            episodeInformation.episodename = full_record.episodes[full_record.episodes.length-j].episodename
-            episodeInformation.firstaired = full_record.episodes[full_record.episodes.length-j].firstaired
-            episodeInformation.episodenumber = full_record.episodes[full_record.episodes.length-j].episodenumber
-            episodeInformation.seasonnumber = full_record.episodes[full_record.episodes.length-j].seasonnumber
-            episodeInformation.overview = full_record.episodes[full_record.episodes.length-j].overview
-            episodeInformation.imagepath_full = full_record.episodes[full_record.episodes.length-j].imagepath_full
-            episodeInformation.save
+            new_episode_information_from_episode_record(full_record.episodes[full_record.episodes.length-j])
           else
             # As we go backwards through the episodes array we can break on the first episode which has already aired
             break
@@ -160,5 +141,19 @@ class ApplicationController < ActionController::Base
         end
       end
     end
+  end
+  
+  def new_episode_information_from_episode_record(episode_record)
+    episodeInformation = EpisodeInformation.new
+    episodeInformation.seriesid = episode_record.seriesid
+    episodeInformation.id = episode_record.id
+    episodeInformation.episodename = episode_record.episodename
+    episodeInformation.firstaired = episode_record.firstaired
+    episodeInformation.episodenumber = episode_record.episodenumber
+    episodeInformation.seasonnumber = episode_record.seasonnumber
+    episodeInformation.overview = episode_record.overview
+    episodeInformation.imagepath_full = episode_record.imagepath_full
+    episodeInformation.save
+    return episodeInformation
   end
 end

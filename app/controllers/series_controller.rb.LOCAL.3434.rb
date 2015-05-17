@@ -8,24 +8,15 @@ class SeriesController < ApplicationController
     @result = client.get_series_all(params[:seriesid])
     @full_rec = @result.full_series_record
 
-
-    @next_airing_list = Array.new
-    @event_array = Array.new
     @num_seasons = 0
     @full_rec.episodes.each do |e|
       if e.seasonnumber > @num_seasons
         @num_seasons = e.seasonnumber
-      end unless e.seasonnumber.nil?
-      if @next_airing_list.size > 10
-        next
       end
-      if e.firstaired > Date.today
-        @next_airing_list << e
-        @event_array << create_calendar_event(e.id, e.episodename, "", e.firstaired, e.firstaired)
-      end unless e.firstaired.nil?
-    end unless @full_rec.episodes.nil?
+    end
 
     @num_seasons += 1
+
     @seasons = Array.new(@num_seasons)
     @seasons.each_with_index do |s , i|
       s = Array.new
@@ -36,8 +27,8 @@ class SeriesController < ApplicationController
       @seasons[i] = s
       end
     end
-  end
 
+  end
 
   def search
     client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
@@ -60,11 +51,7 @@ class SeriesController < ApplicationController
   end
 
   def unsubscribe
-  
-  end
 
-  def create_calendar_event(id, title, description, start_time, end_time)
-    return event = {:id => "#{id}", :title => "#{title}", :description => "#{description}", :start => "#{start_time}", :end => "#{end_time}"}.to_json
   end
 
 end

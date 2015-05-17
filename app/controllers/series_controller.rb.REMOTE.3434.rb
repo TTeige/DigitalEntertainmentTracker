@@ -59,10 +59,6 @@ class SeriesController < ApplicationController
     redirect_to action: :show, seriesid: seriesid, status: 307
   end
 
-  def unsubscribe
-  
-  end
-
   def create_calendar_event(id, title, description, start_time, end_time)
     return event = {:id => "#{id}", :title => "#{title}", :description => "#{description}", :start => "#{start_time}", :end => "#{end_time}"}.to_json
   end

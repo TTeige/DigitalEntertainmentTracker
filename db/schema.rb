@@ -32,6 +32,17 @@ ActiveRecord::Schema.define(version: 20150517230007) do
     t.datetime "updated_at", null: false
     t.text     "overview"
     t.string   "genres"
+
+ActiveRecord::Schema.define(version: 20150505120136) do
+
+  create_table "events", force: :cascade do |t|
+    t.integer  "seriesid"
+    t.string   "title"
+    t.text     "description"
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "series_subscriptions", force: :cascade do |t|

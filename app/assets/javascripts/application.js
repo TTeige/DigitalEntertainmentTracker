@@ -14,3 +14,16 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require_tree .
+//= require moment
+//= require fullcalendar
+
+$(document).ready(function() {
+    if ($("div.fullCalendar").length){
+        $("div.fullCalendar").fullCalendar(
+            {
+                events: '/events.json',
+                allDayDefault: true
+            });
+    }
+})
+

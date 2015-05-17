@@ -60,3 +60,6 @@ gem 'devise'
 
 # Gem to run tasks at specified intervals. For updating our cache database
 gem 'whenever'
+
+gem 'momentjs-rails'
+gem 'fullcalendar-rails'

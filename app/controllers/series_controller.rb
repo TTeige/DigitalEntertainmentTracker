@@ -1,6 +1,6 @@
 class SeriesController < ApplicationController
 
-  before_action :authenticate_user!, only: [:subscribe]
+  before_action :authenticate_user!, only: [:subscribe, :unsubscribe]
 
 	def show
 		client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
@@ -51,7 +51,13 @@ class SeriesController < ApplicationController
   end
 
   def unsubscribe
+    if params[:seriesid]
+      seriesid = params[:seriesid]
 
+      SeriesSubscription.destroy_all :user => current_user, :seriesid => seriesid
+    end
+
+    redirect_to controller: :account, action: :subscriptions
   end
 
 end

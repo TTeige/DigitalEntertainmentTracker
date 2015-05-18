@@ -39,15 +39,21 @@ class SeriesController < ApplicationController
   end
 
   def subscribe
-    seriesid = params[:seriesid]
+    if params[:seriesid]
+      seriesid = params[:seriesid]
 
-    subscription = SeriesSubscription.find_by :user => current_user, :seriesid => seriesid
-    unless subscription
-      subscription = SeriesSubscription.new(:user => current_user, :seriesid => seriesid)
-      subscription.save
+
+      subscription = SeriesSubscription.find_by :user => current_user, :seriesid => seriesid
+      unless subscription
+        subscription = SeriesSubscription.new(:user => current_user, :seriesid => seriesid)
+        subscription.save
+      end
+
+      redirect_to action: :show, seriesid: seriesid, status: 307
+    else
+      redirect_to controller: :account, action: :subscriptions
     end
 
-    redirect_to action: :show, seriesid: seriesid, status: 307
   end
 
   def unsubscribe

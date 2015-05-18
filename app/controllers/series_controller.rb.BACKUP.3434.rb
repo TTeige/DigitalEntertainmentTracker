@@ -60,7 +60,7 @@ class SeriesController < ApplicationController
   end
 
   def unsubscribe
-    
+
   end
 
   def create_calendar_event(id, title, description, start_time, end_time)

@@ -8,7 +8,7 @@
 <div role="tabpanel">
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active">
-      <a id="calendar_tab" href="#calendar" aria-controls="calendar" role="tab" data-toggle="tab">Calendar</a>
+      <a id="calendar_tab" href="#calendar_panel" aria-controls="calendar_panel" role="tab" data-toggle="tab">Calendar</a>
     </li>
     <li role="presentation">
       <a id="actor_tab" href="#actors" aria-controls="actors" role="tab" data-toggle="tab">Actors</a>
@@ -23,20 +23,24 @@
   </ul>
 
   <div class="tab-content">
-    <div role="tabpanel" class="tab-pane fade in active" id="calendar">
-      <div class="well">
-        <p>Calendar goes here</p>
-      </div>
+    <div role="tabpanel" class="tab-pane fade in active" id="calendar_panel">
+      <% if not @next_airing_list.empty? %>
+        <div class="fullCalendar"></div>
+      <% else %>
+        <h4>No upcoming episodes</h4>
+      <% end %>
     </div>
     <div role="tabpanel" class="tab-pane fade" id="actors">
       <ul class="list-group">
         <% @result.actors.each do |a| %>
         <li class="list-group-item">
-          <div class="media-left">
-            <%= image_tag(a.image_path_full, :height => 70, :width => 50) %>
-          </div>
+          <% if a.image_path_full %>
+            <div class="media-left">
+              <%= image_tag(a.image_path_full, :height => 70, :width => 50) %>
+            </div>
+          <% end %>
           <div class="media-body">
-            <h4 class="media-heading"><%= a.name %><h4>
+            <h4 class="media-heading"><%= a.name %></h4>
           </div>
         </li>
         <% end %>
@@ -74,8 +78,7 @@
                     </div>
                   <% end %>
                     <div class="media-body">
-                      <h4 class="media-heading"><%= e.episodename %></h4>
-                      <p>Episode <%= e.episodenumber %></p>
+                      <h4 class="media-heading"><%= e.episodename %> <small>Episode <%= e.episodenumber %></small></h4>
                       <p><%= e.overview %></p>
                     </div>
                   </li>

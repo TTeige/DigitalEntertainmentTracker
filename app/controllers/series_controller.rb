@@ -1,6 +1,6 @@
 class SeriesController < ApplicationController
 
-  before_action :authenticate_user!, only: [:subscribe]
+  before_action :authenticate_user!, only: [:subscribe, :unsubscribe]
 
 	def show
 		client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
@@ -48,23 +48,34 @@ class SeriesController < ApplicationController
   end
 
   def subscribe
-    seriesid = params[:seriesid]
+    if params[:seriesid]
+      seriesid = params[:seriesid]
 
-    subscription = SeriesSubscription.find_by :user => current_user, :seriesid => seriesid
-    unless subscription
-      subscription = SeriesSubscription.new(:user => current_user, :seriesid => seriesid)
-      subscription.save
+
+      subscription = SeriesSubscription.find_by :user => current_user, :seriesid => seriesid
+      unless subscription
+        subscription = SeriesSubscription.new(:user => current_user, :seriesid => seriesid)
+        subscription.save
+      end
+
+      redirect_to action: :show, seriesid: seriesid, status: 307
+    else
+      redirect_to controller: :account, action: :subscriptions
     end
 
-    redirect_to action: :show, seriesid: seriesid, status: 307
   end
 
   def unsubscribe
-  
+    if params[:seriesid]
+      seriesid = params[:seriesid]
+
+      SeriesSubscription.destroy_all :user => current_user, :seriesid => seriesid
+    end
+
+    redirect_to controller: :account, action: :subscriptions
   end
 
   def create_calendar_event(id, title, description, start_time, end_time)
     return event = {:id => "#{id}", :title => "#{title}", :description => "#{description}", :start => "#{start_time}", :end => "#{end_time}"}.to_json
   end
-
 end

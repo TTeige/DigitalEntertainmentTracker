@@ -1,0 +1,36 @@
+<% if @result %>
+    <div class="page-header">
+      <h1>
+        <% if @result.episodename %>
+            <%= @result.episodename %>
+        <% else %>
+            No information available yet.
+        <% end %>
+      </h1>
+      <% if @result.imagepath_full %>
+          <%= image_tag(@result.imagepath_full, alt: @result.episodename) %>
+      <% end %>
+    </div>
+    <div>
+      <dl class="dl-horizontal">
+        <dt>Title</dt>
+        <dd><%= @result.episodename %></dd>
+        <dt>Season</dt>
+        <dd>
+          <% if @result.seasonnumber < 1 %>
+            Special episode
+          <% else %>
+            <%= @result.seasonnumber %>
+          <% end %>
+        </dd>
+        <dt>Episode</dt>
+        <dd><%= @result.episodenumber %></dd>
+        <dt>Absolute number</dt>
+        <dd><%= @result.absolute_number %></dd>
+      </dl>
+    </div>
+<% else %>
+    <div class="alert alert-danger" role="alert">
+      <p>The requested episode could not be retrieved!</p>
+    </div>
+<% end %>

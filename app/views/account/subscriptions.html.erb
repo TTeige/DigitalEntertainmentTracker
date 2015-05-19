@@ -14,7 +14,7 @@
         <div class="panel-heading clearfix">
           <h3 class="panel-title pull-left"><%= link_to resultItem.seriesname, controller: "series", action: "show", seriesid: resultItem.seriesid %></h3>
           <div class="pull-right">
-            <%= link_to "Unsubscribe", :controller => :series, :action => :unsubscribe %>
+            <%= link_to "Unsubscribe", :controller => :series, :action => :unsubscribe, :seriesid => resultItem.seriesid %>
           </div>
         </div>
         <% if resultItem.overview && resultItem.overview.class == String %>

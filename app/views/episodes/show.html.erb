@@ -1,0 +1,9 @@
+<% if @episodeid %>
+    <div class="alert alert-warning" role="alert">
+      <p>Caching for episdoes is not yet implemented. Click <%= link_to "here", :controller => :episodes, :action => :detail, episodeid: @episodeid %> to view the uncached details of the requested episodes.</p>
+    </div>
+<% else %>
+    <div class="alert alert-danger" role="alert">
+      <p>The requested episode could not be retrieved!</p>
+    </div>
+<% end %>

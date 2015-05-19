@@ -49,12 +49,7 @@ class ApplicationController < ActionController::Base
     # Create a TvDBParty client and fetch the episode record
     client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
     full_record = client.get_series_all(seriesid).full_series_record
-    seriesInformation = SeriesInformation.new
-    seriesInformation.seriesid = seriesid
-    seriesInformation.seriesname = full_record.seriesname
-    seriesInformation.overview = full_record.overview
-    seriesInformation.genres = full_record.genres
-    seriesInformation.save
+    seriesInformation = new_series_information_from_series_record(full_record)
     upcomingEpisodes = Array.new
     # Look through the episode record and see if we have any records that are not added
     for j in 1..(full_record.episodes.length)
@@ -71,7 +66,7 @@ class ApplicationController < ActionController::Base
   end
   
   # Function to be added to cron-jobs by whenever gem
-  def self.update_cache(lastupdate)
+  def update_cache(lastupdate)
     client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
     timeDelta = (Time.new()-lastupdate).to_i
     timeframe = "day"
@@ -109,6 +104,9 @@ class ApplicationController < ActionController::Base
       # Get information about the show
       full_record = client.get_series_all(seriesid).full_series_record
       seriesInformation = SeriesInformation.find_by seriesid: seriesid
+      if(seriesInformation.nil?)
+        seriesInformation = new_series_information_from_series_record(full_record)
+      end
       changed = false
       if(seriesInformation.seriesname != full_record.seriesname)
         seriesInformation.seriesname = full_record.seriesname
@@ -142,7 +140,6 @@ class ApplicationController < ActionController::Base
       end
     end
   end
-  
   def new_episode_information_from_episode_record(episode_record)
     episodeInformation = EpisodeInformation.new
     episodeInformation.seriesid = episode_record.seriesid
@@ -155,5 +152,14 @@ class ApplicationController < ActionController::Base
     episodeInformation.imagepath_full = episode_record.imagepath_full
     episodeInformation.save
     return episodeInformation
+  end
+  def new_series_information_from_series_record(series_record)
+    seriesInformation = SeriesInformation.new
+    seriesInformation.seriesid = series_record.seriesid
+    seriesInformation.seriesname = series_record.seriesname
+    seriesInformation.overview = series_record.overview
+    seriesInformation.genres = series_record.genres
+    seriesInformation.save
+    return seriesInformation
   end
 end

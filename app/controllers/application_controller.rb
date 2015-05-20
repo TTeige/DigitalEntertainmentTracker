@@ -159,6 +159,8 @@ class ApplicationController < ActionController::Base
     seriesInformation.seriesname = series_record.seriesname
     seriesInformation.overview = series_record.overview
     seriesInformation.genres = series_record.genres
+    # Do lookup in subscriptions table to ensure that this is right?
+    seriesInformation.userssubscribed = 0
     seriesInformation.save
     return seriesInformation
   end

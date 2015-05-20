@@ -56,6 +56,11 @@ class SeriesController < ApplicationController
       unless subscription
         subscription = SeriesSubscription.new(:user => current_user, :seriesid => seriesid)
         subscription.save
+        seriesinformation = get_information_for_seriesid(seriesid)
+        unless seriesinformation.nil?
+          seriesinformation.userssubscribed+=1
+          seriesinformation.save
+        end
       end
 
       redirect_to action: :show, seriesid: seriesid, status: 307
@@ -70,6 +75,16 @@ class SeriesController < ApplicationController
       seriesid = params[:seriesid]
 
       SeriesSubscription.destroy_all :user => current_user, :seriesid => seriesid
+      seriesinformation = SeriesInformation.find_by :seriesid => seriesid
+      unless seriesinformation.nil?
+        seriesinformation.userssubscribed-=1
+        if seriesinformation.userssubscribed>0
+          seriesinformation.save
+        elsif
+          seriesinformation.destroy
+          EpisodeInformation.where(seriesid: seriesid).destroy_all
+        end
+      end
     end
 
     redirect_to controller: :account, action: :subscriptions

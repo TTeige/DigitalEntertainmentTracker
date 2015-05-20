@@ -22,7 +22,7 @@ class RssController < ApplicationController
                             episode.imagepath_full,
                             episode.episodenumber,
                             episode.seasonnumber,
-                            episode.lastupdated.to_s[0..9]])
+                            episode.lastupdated.strftime('%A, %B %-d, %Y %H:%m')])
         end
       end
       @upcoming.sort! { |x,y|

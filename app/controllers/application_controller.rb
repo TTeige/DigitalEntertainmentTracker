@@ -150,6 +150,7 @@ class ApplicationController < ActionController::Base
     episodeInformation.seasonnumber = episode_record.seasonnumber
     episodeInformation.overview = episode_record.overview
     episodeInformation.imagepath_full = episode_record.imagepath_full
+    episodeInformation.lastupdated = episode_record.lastupdated
     episodeInformation.save
     return episodeInformation
   end

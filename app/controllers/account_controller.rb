@@ -9,7 +9,7 @@ class AccountController < ApplicationController
       seriesInformation = get_information_for_seriesid(subscr.seriesid)
       episodes = get_upcoming_episodes(subscr.seriesid)
       for episode in episodes
-        @upcoming.push([seriesInformation.seriesname,episode.firstaired,episode.episodename,subscr.seriesid])
+        @upcoming.push([seriesInformation.seriesname,episode.firstaired,episode.episodename,subscr.seriesid,episode.id])
       end
     end
     @upcoming.sort! { |x,y|

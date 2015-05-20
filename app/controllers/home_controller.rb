@@ -11,7 +11,7 @@ class HomeController < ApplicationController
       seriesInformation = get_information_for_seriesid(series[i][0])
       episodes = get_upcoming_episodes(series[i][0])
       for episode in episodes
-        @upcoming.push([seriesInformation.seriesname,episode.firstaired,episode.episodename,series[i][0]])
+        @upcoming.push([seriesInformation.seriesname,episode.firstaired,episode.episodename,series[i][0],episode.id])
       end
       i+=1
     end

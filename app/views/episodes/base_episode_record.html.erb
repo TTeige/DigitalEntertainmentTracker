@@ -13,8 +13,10 @@
     </div>
     <div>
       <dl class="dl-horizontal">
+        <dt>Series</dt>
+        <dd><%= @seriesname %></dd>
         <dt>Title</dt>
-        <dd><%= @result.episodename %></dd>
+        <dd><%= @result.episodename ? @result.episodename : "TBA" %></dd>
         <dt>Season</dt>
         <dd>
           <% if @result.seasonnumber < 1 %>
@@ -25,8 +27,15 @@
         </dd>
         <dt>Episode</dt>
         <dd><%= @result.episodenumber %></dd>
-        <dt>Absolute number</dt>
-        <dd><%= @result.absolute_number %></dd>
+        <!-- Check if this is a full BaseEpisodeRecord or fetched from cache, render accordingly -->
+        <% if @result.instance_of? TheTvDbParty::BaseEpisodeRecord %>
+        	<dt>Absolute number</dt>
+        	<dd><%= @result.absolute_number %></dd>
+        <% end %>
+        <% if !@result.overview.nil? %>
+        	<dt>Overview</dt>
+        	<dd><%= @result.overview %></dd>
+        <% end %>
       </dl>
     </div>
 <% else %>

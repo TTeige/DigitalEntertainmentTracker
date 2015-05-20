@@ -3,11 +3,12 @@ class RssController < ApplicationController
 	def feed
 	  @upcoming = Array.new
 	  userid = params[:userid]
-	  if userid.nil? && current_user.nil? == false
-	    redirect_to feed_path(:rss,:userid => current_user.id)
+	  key = params[:key]
+	  if (userid.nil? || key.nil?) && current_user.nil? == false
+	    redirect_to feed_path(:rss,:userid => current_user.id,:key => current_user.encrypted_password)
 	  end
-    unless userid.nil?
-      params.merge(:b => 'goat')
+	  matchinguser = User.where(encrypted_password: key).first
+    if userid.nil? == false && key.nil? == false && matchinguser.nil? == false
       series_subscriptions = SeriesSubscription.where(user_id: userid)
       for subscr in series_subscriptions
         series = get_information_for_seriesid(subscr.seriesid)

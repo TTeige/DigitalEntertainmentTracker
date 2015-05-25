@@ -5,9 +5,9 @@ class RssController < ApplicationController
 	  userid = params[:userid]
 	  key = params[:key]
 	  if (userid.nil? || key.nil?) && current_user.nil? == false
-	    redirect_to feed_path(:rss,:userid => current_user.id,:key => current_user.encrypted_password)
+	    redirect_to feed_path(:rss,:userid => current_user.id,:key => current_user.email)
 	  end
-	  matchinguser = User.where(encrypted_password: key).first
+	  matchinguser = User.where(email: key).first
     if userid.nil? == false && key.nil? == false && matchinguser.nil? == false
       series_subscriptions = SeriesSubscription.where(user_id: userid)
       for subscr in series_subscriptions

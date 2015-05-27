@@ -1,4 +1,17 @@
 <% if @result && @full_rec %>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    if ($("div.fullCalendar").length){
+        $("div.fullCalendar").fullCalendar(
+            {
+                events: "<%= url_for controller: :series, action: :show_events, seriesid: @full_rec.seriesid %>",
+                allDayDefault: true
+            });
+    }
+  })
+</script>
+
 <div class="page-header">
   <h1>
     <%= image_tag(@full_rec.bannerpath_full, :class => "center-block", alt: @full_rec.seriesname) %>
@@ -9,6 +22,9 @@
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active">
       <a id="calendar_tab" href="#calendar_panel" aria-controls="calendar_panel" role="tab" data-toggle="tab">Calendar</a>
+    </li>
+    <li role="presentation">
+      <a id="list_tab" href="#list_panel" aria-controls="list_panel" role="tab" data-toggle="tab">Upcoming List</a>
     </li>
     <li role="presentation">
       <a id="actor_tab" href="#actors" aria-controls="actors" role="tab" data-toggle="tab">Actors</a>
@@ -24,8 +40,30 @@
 
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane fade in active" id="calendar_panel">
-      <% if not @next_airing_list.empty? %>
+      <% if not @upcoming.empty? %>
         <div class="fullCalendar"></div>
+      <% else %>
+        <h4>No upcoming episodes</h4>
+      <% end %>
+    </div>
+    <div role="tabpanel" class="tab-pane fade" id="list_panel">
+      <% if not @upcoming.empty? %>
+        <% @upcoming.each do |e| %>
+          <div class="list-group">
+            <li class="list-group-item">
+              <% if e.imagepath_full %>
+                <div class="media-left">
+                  <%= image_tag(e.imagepath_full) %>
+                </div>
+              <% end %>
+              <div class="media-body">
+                <h4 class="media-heading"><%= e.episodename %> <small>Episode <%= e.episodenumber %></small></h4>
+                  <p><%= e.firstaired %></p>
+                  <p><%= e.overview %></p>
+              </div>
+            </li>
+          </div>
+        <% end %>
       <% else %>
         <h4>No upcoming episodes</h4>
       <% end %>

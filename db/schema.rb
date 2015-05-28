@@ -39,18 +39,11 @@ ActiveRecord::Schema.define(version: 20150520163551) do
   create_table "series_informations", force: :cascade do |t|
     t.integer  "seriesid"
     t.string   "seriesname"
-<<<<<<< HEAD
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
     t.text     "overview"
     t.string   "genres"
     t.integer  "userssubscribed"
-=======
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.text     "overview"
-    t.string   "genres"
->>>>>>> tatVisualCalendar
   end
 
   create_table "series_subscriptions", force: :cascade do |t|

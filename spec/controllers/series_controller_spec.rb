@@ -7,4 +7,12 @@ RSpec.describe SeriesController, type: :controller do
       expect(response).to have_http_status(200)
     end
   end
+
+  describe "GET #show_events" do
+    it "returns success if rendered" do 
+      get :show_events
+      expect(response).to have_http_status(200)
+    end
+  end
+
 end

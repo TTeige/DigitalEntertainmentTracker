@@ -1,28 +1,7 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+To run this application please perform regular Ruby on Rails steps. Run "rake db:migrate", "bundle install" and other applicable commands to ensure your working environment is set up correctly. This version has been tested with Ruby 2.2.1.
 
-Things you may want to cover:
+To generate test reports run "rake spec:html" both for the main project and the gem 'thetvdb_party' enclosed as source in this project.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
+To work with TheTvDB external data server an API key is needed. For testing the 'thetvdb_party' gem requires a .env.yml file with an API key in the format "TVDB_API_KEY: '<key>'", the main project needs a .env file on the format "TVDB_API_KEY=<key>" (note the lack of quotation marks in the second format). Without these keys the application will not run. For educational evaluation these keys will be enclosed with the project.

@@ -37,7 +37,9 @@ class EpisodesController < ApplicationController
 
   def detail
     client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
-    client.language = params[:lang] if params[:lang]
+    if params[:lang]
+      client.language = params[:lang]
+    end
     @result = client.get_base_episode_record params[:episodeid]
     @seriesname = get_series_name(@result.seriesid)
     render "base_episode_record"

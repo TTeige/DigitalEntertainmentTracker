@@ -46,23 +46,31 @@ class ApplicationController < ActionController::Base
   
   # Internal function to look up things in the cache. Adds episodes without checking if they already exists! 
   def initialize_cache_and_return_data(seriesid)
-    # Create a TvDBParty client and fetch the episode record
-    client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
-    full_record = client.get_series_all(seriesid).full_series_record
-    seriesInformation = new_series_information_from_series_record(full_record)
-    upcomingEpisodes = Array.new
-    # Look through the episode record and see if we have any records that are not added
-    for j in 1..(full_record.episodes.length)
-      if(full_record.episodes[full_record.episodes.length-j].firstaired)
-        if(full_record.episodes[full_record.episodes.length-j].firstaired > Date.today.prev_day)
-          # If we find an episode which hasn't aired yet, or airs today, add it to the list.
-          upcomingEpisodes.push(new_episode_information_from_episode_record(full_record.episodes[full_record.episodes.length-j]))
-        else
-          break
+    begin
+      # Create a TvDBParty client and fetch the episode record
+      client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
+      full_record = client.get_series_all(seriesid).full_series_record
+
+      #Methods using the cache must handle the exception, creates a double render error when handled in this method
+      if full_record.nil?
+        raise ActionController::RoutingError.new('Internal Server Error')
+      end
+
+      seriesInformation = new_series_information_from_series_record(full_record)
+      upcomingEpisodes = Array.new
+      # Look through the episode record and see if we have any records that are not added
+      for j in 1..(full_record.episodes.length)
+        if(full_record.episodes[full_record.episodes.length-j].firstaired)
+          if(full_record.episodes[full_record.episodes.length-j].firstaired > Date.today.prev_day)
+            # If we find an episode which hasn't aired yet, or airs today, add it to the list.
+            upcomingEpisodes.push(new_episode_information_from_episode_record(full_record.episodes[full_record.episodes.length-j]))
+          else
+            break
+          end
         end
       end
+      return seriesInformation,upcomingEpisodes
     end
-    return seriesInformation,upcomingEpisodes
   end
   
   # Function to be added to cron-jobs by whenever gem
@@ -165,4 +173,10 @@ class ApplicationController < ActionController::Base
     seriesInformation.save
     return seriesInformation
   end
+
+  protected
+  def inter_server_error_render
+    render(:file => File.join(Rails.root, 'public/404.html'), :status => 404, :layout => false)
+  end
+
 end

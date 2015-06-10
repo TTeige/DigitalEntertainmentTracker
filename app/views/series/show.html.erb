@@ -18,6 +18,16 @@
   </h1>
 </div>
 
+<% if current_user %>
+  <div class="pull-right">
+    <% if SeriesSubscription.find_by :user => current_user, :seriesid => @full_rec.seriesid %>
+      <%= link_to "Unsubscribe", controller: :series, action: :unsubscribe, seriesid: @full_rec.seriesid %>
+    <% else %>
+      <%= link_to "Subscribe", controller: :series, action: :subscribe, seriesid: @full_rec.seriesid %>
+    <% end %>
+  </div>
+<% end %>
+
 <div role="tabpanel">
   <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active">
@@ -57,8 +67,8 @@
                 </div>
               <% end %>
               <div class="media-body">
-                <h4 class="media-heading"><%= e.episodename %> <small>Episode <%= e.episodenumber %></small></h4>
-                  <p><%= e.firstaired %></p>
+                <h4 class="media-heading"><%= link_to e.episodename ? e.episodename : "TBA", controller: :episodes, action: :show, episodeid: e.id %> <small>Episode <%= e.episodenumber %></small></h4>
+                  <p><%= e.firstaired ? e.firstaired.strftime('%A, %B %-d, %Y') : "TBA" %></p>
                   <p><%= e.overview %></p>
               </div>
             </li>
@@ -119,7 +129,7 @@
                     </div>
                   <% end %>
                     <div class="media-body">
-                      <h4 class="media-heading"><%= e.episodename %> <small>Episode <%= e.episodenumber %></small></h4>
+                      <h4 class="media-heading"><%= link_to e.episodename, controller: :episodes, action: :show, episodeid: e.id %> <small>Episode <%= e.episodenumber %></small></h4>
                       <p><%= e.overview %></p>
                     </div>
                   </li>

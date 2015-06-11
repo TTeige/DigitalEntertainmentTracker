@@ -79,6 +79,7 @@
       <% end %>
     </div>
     <div role="tabpanel" class="tab-pane fade" id="actors">
+      <% if @result.actors %>
       <ul class="list-group">
         <% @result.actors.each do |a| %>
         <li class="list-group-item">
@@ -93,6 +94,9 @@
         </li>
         <% end %>
       </ul>
+      <% else %>
+      <h4>No actor information available for this series.</h4>
+      <% end %>
     </div>
     <div role="tabpanel" class="tab-pane fade" id="episodes">
       <nav>

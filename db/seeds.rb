@@ -5,13 +5,15 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-show_list = [
-  80379,#TBBT
-  82066,#Fringe
-  82066,#Fringe
-  82459,#The mentalist
-  72449 #Stargate
-]
-show_list.each do |sid|
-  SeriesSubscription.create(user_id: 0, seriesid: sid)
+
+client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
+updates = client.get_updates_by_timeframe("week")
+updates.series.map do |series|
+  user = User.take
+  user = User.create(email: "no-user-4242@tempuri.org") unless user
+  subscription = SeriesSubscription.find_by :user => user, :seriesid => series[:seriesid]
+  unless subscription
+    subscription = SeriesSubscription.new :user => user, :seriesid => series[:seriesid]
+    subscription.save
+  end
 end

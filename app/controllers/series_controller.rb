@@ -12,28 +12,13 @@ class SeriesController < ApplicationController
       if @full_rec.nil?
         raise ActionController::RoutingError.new('Internal Server Error')
       end
-      
-      #Bad way of sorting out the episodes in seasons, should be optimized
-      @num_seasons = 0
+
+      @seasons_hash = Hash.new {|h,k| h[k]=[]}
       @full_rec.episodes.each do |e|
-        if e.seasonnumber > @num_seasons
-          @num_seasons = e.seasonnumber
-        end unless e.seasonnumber.nil?
+        @seasons_hash[e.seasonnumber ? e.seasonnumber : 0] << e
       end unless @full_rec.episodes.nil?
 
-      @num_seasons += 1
-      @seasons = Array.new(@num_seasons)
-      @seasons.each_with_index do |s , i|
-        s = Array.new
-        @full_rec.episodes.each do |e|
-          if e.seasonnumber == i
-            s << e
-          end
-        @seasons[i] = s
-        end
-      end
-
-      @upcoming = search_for_upcoming(@full_rec)
+      @upcoming = search_for_upcoming
       if @upcoming.nil?
         raise ActionController::RoutingError.new('Internal Server Error')
       end
@@ -97,25 +82,14 @@ class SeriesController < ApplicationController
 
   def show_events
     begin
-      if SeriesSubscription.find_by :seriesid => params[:seriesid]
-        upcoming_episodes = get_upcoming_episodes(params[:seriesid])
-      else
-        client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
-        client.language = params[:lang] if params[:lang]
-        result = client.get_series_all(params[:seriesid])
-        if result.nil?
-          raise ActionController:RoutingError.new('Internal Server Errror')
-        end
-        upcoming_episodes = search_for_upcoming(result.full_series_record)
-      end
+      upcoming_episodes = search_for_upcoming
 
       if upcoming_episodes.nil?
         raise ActionController::RoutingError.new('Internal Server Error')
       end
 
       events = upcoming_episodes.map do |e|
-        puts e
-        title = e.episodename.nil? ? "TBA" : e.episodename
+        title = e.episodename.nil? ? 'TBA' : e.episodename
         if e.firstaired.kind_of? Date
           x = create_calendar_event(e.id, title, e.overview, e.firstaired.to_datetime.utc.iso8601, e.firstaired.to_datetime.utc.iso8601)
         else
@@ -129,24 +103,55 @@ class SeriesController < ApplicationController
     end
   end
 
-  private
-  
-  def create_calendar_event(id, title, description, start_time, end_time)
-    return event = {:id => "#{id}", :title => "#{title}", :description => "#{description}", :start => "#{start_time}", :end => "#{end_time}"}
+  def ics_export
+    upcoming = search_for_upcoming
+    cal = Icalendar::Calendar.new
+    upcoming.each do |e|
+      event = Icalendar::Event.new
+      if e.firstaired.kind_of? Date
+        event.dtstart = e.firstaired.to_datetime
+      else
+        event.dtstart = e.firstaired
+      end
+      event.summary = e.episodename.nil? ? 'TBA' : e.episodename
+      event.description = e.overview
+      event.url = url_for :controller => 'series', :action => 'show', :seriesid => params[:seriesid]
+      cal.add_event(event)
+    end
+    cal.publish
+    render :text => cal.to_ical
   end
 
-  def search_for_upcoming(full_rec)
+
+  private
+  def create_calendar_event(id, title, description, start_time, end_time)
+    {:id => "#{id}", :title => "#{title}", :description => "#{description}", :start => "#{start_time}", :end => "#{end_time}"}
+  end
+
+  def search_for_upcoming
+
     upcoming_episodes = Array.new
-    full_rec.episodes.each do |e|
-      if e.firstaired.nil?
-        next
+    if SeriesSubscription.find_by :seriesid => params[:seriesid]
+      upcoming_episodes = get_upcoming_episodes(params[:seriesid])
+    else
+      client = TheTvDbParty::Client.new(ENV['TVDB_API_KEY'])
+      client.language = params[:lang] if params[:lang]
+      result = client.get_series_all(params[:seriesid])
+      if result.nil?
+        raise ActionController:RoutingError.new('Internal Server Errror')
       end
-      if e.firstaired >= Date.today
-        upcoming_episodes << e
+      result.full_series_record.episodes.each do |e|
+        if e.firstaired.nil?
+          next
+        end
+        upcoming_episodes << e if e.firstaired >= Date.today
       end
     end
+    upcoming_episodes
+  end
 
-    return upcoming_episodes
+  def events_as_hash
+
   end
 
 end

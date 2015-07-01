@@ -35,7 +35,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug'
+  # gem 'byebug'
 
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
@@ -53,6 +53,9 @@ gem 'dotenv-rails', :groups => [:development, :test]
 gem 'httparty', '>= 0.6.1'
 
 gem 'thetvdb_party'
+
+#Gem to export calendar events
+gem 'icalendar', '~> 2.2.2'
 
 gem 'tzinfo-data'
 

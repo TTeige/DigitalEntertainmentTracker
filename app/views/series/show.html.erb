@@ -58,22 +58,22 @@
     </div>
     <div role="tabpanel" class="tab-pane fade" id="list_panel">
       <% if not @upcoming.empty? %>
-        <% @upcoming.each do |e| %>
-          <div class="list-group">
-            <li class="list-group-item">
-              <% if e.imagepath_full %>
-                <div class="media-left">
-                  <%= image_tag(e.imagepath_full) %>
-                </div>
-              <% end %>
-              <div class="media-body">
-                <h4 class="media-heading"><%= link_to e.episodename ? e.episodename : "TBA", controller: :episodes, action: :show, episodeid: e.id %> <small>Episode <%= e.episodenumber %></small></h4>
-                  <p><%= e.firstaired ? e.firstaired.strftime('%A, %B %-d, %Y') : "TBA" %></p>
-                  <p><%= e.overview %></p>
-              </div>
-            </li>
-          </div>
-        <% end %>
+        <div class="list-group">
+            <% @upcoming.each do |e| %>
+                <li class="list-group-item">
+                  <% if e.imagepath_full %>
+                    <div class="media-left">
+                      <%= image_tag(e.imagepath_full) %>
+                    </div>
+                  <% end %>
+                  <div class="media-body">
+                    <h4 class="media-heading"><%= link_to e.episodename ? e.episodename : "TBA", controller: :episodes, action: :show, episodeid: e.id %> <small>Episode <%= e.episodenumber %></small></h4>
+                      <p><%= e.firstaired ? e.firstaired.strftime('%A, %B %-d, %Y') : "TBA" %></p>
+                      <p><%= e.overview %></p>
+                  </div>
+                </li>
+            <% end %>
+        </div>
       <% else %>
         <h4>No upcoming episodes</h4>
       <% end %>
@@ -101,13 +101,13 @@
     <div role="tabpanel" class="tab-pane fade" id="episodes">
       <nav>
         <ul class="pagination">
-          <% @num_seasons.times do |i| %>
+          <% @seasons_hash.length.times do |i| %>
             <li><a data-toggle="collapse" href="#collapse<%=  + i %>" aria-expanded="true" aria-controls="collapse<%= + i %>"><%= i %></a></li>
           <% end %>
         </ul>
       </nav>
       <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-      <% @seasons.each_with_index do |s, i| %>
+      <% @seasons_hash.each_with_index do |s, i| %>
         <div class="panel panel-default">
           <div class="panel-heading" role="tab" id="heading<%= + i %>">
             <h4 class="panel-title">
@@ -122,10 +122,10 @@
           </div>
           <div id="collapse<%= + i %>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading<%= + i %>">
             <div class="list-group" id=<%= i %> >
-              <% if s.empty? %>
+              <% if @seasons_hash[i].empty? %>
                 <p>No episode information for this season</p>
               <% else %>
-                <% s.each do |e| %>
+                <% @seasons_hash[i].each do |e| %>
                   <li class="list-group-item">
                   <% if e.imagepath_full %>
                     <div class="media-left">

@@ -105,21 +105,26 @@ class SeriesController < ApplicationController
 
   def ics_export
     upcoming = search_for_upcoming
-    cal = Icalendar::Calendar.new
-    upcoming.each do |e|
-      event = Icalendar::Event.new
-      if e.firstaired.kind_of? Date
-        event.dtstart = e.firstaired.to_datetime
-      else
-        event.dtstart = e.firstaired
+    respond_to do |format|
+      format.html
+      format.ics do
+        cal = Icalendar::Calendar.new
+        upcoming.each do |e|
+          event = Icalendar::Event.new
+          if e.firstaired.kind_of? Date
+            event.dtstart = e.firstaired.to_datetime
+          else
+            event.dtstart = e.firstaired
+          end
+          event.summary = e.episodename.nil? ? 'TBA' : e.episodename
+          event.description = e.overview
+          event.url = url_for :controller => 'series', :action => 'show', :seriesid => params[:seriesid]
+          cal.add_event(event)
+        end
+        cal.publish
+        render :text => cal.to_ical
       end
-      event.summary = e.episodename.nil? ? 'TBA' : e.episodename
-      event.description = e.overview
-      event.url = url_for :controller => 'series', :action => 'show', :seriesid => params[:seriesid]
-      cal.add_event(event)
     end
-    cal.publish
-    render :text => cal.to_ical
   end
 
 
@@ -144,7 +149,9 @@ class SeriesController < ApplicationController
         if e.firstaired.nil?
           next
         end
-        upcoming_episodes << e if e.firstaired >= Date.today
+        if e.firstaired >= Date.today
+          upcoming_episodes << e
+        end
       end
     end
     upcoming_episodes

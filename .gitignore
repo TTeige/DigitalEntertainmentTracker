@@ -210,3 +210,4 @@ ModelManifest.xml
 /public/assets/bootstrap/glyphicons*
 
 .env
+*.lock

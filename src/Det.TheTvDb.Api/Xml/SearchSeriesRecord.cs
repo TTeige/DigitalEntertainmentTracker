@@ -52,10 +52,10 @@ namespace Det.TheTvDb.Api
         public DateTime FirstAired { get; set; }
 
         [XmlElement("IMDB_ID")]
-        public uint IMDB_ID { get; set; }
+        public string IMDB_ID { get; set; }
 
         [XmlElement("zap2it_id")]
-        public uint Zap2itId { get; set; }
+        public string Zap2itId { get; set; }
 
         [XmlElement("Network")]
         public string Network { get; set; }

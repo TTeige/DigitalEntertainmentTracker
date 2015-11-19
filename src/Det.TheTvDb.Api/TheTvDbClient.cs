@@ -47,9 +47,55 @@ namespace Det.TheTvDb.Api
             return series;
         }
         
-        public BaseSeriesDataContainer GetBaseSeriesRecord(string seriesid)
+        public BaseSeriesDataContainer GetBaseSeriesRecord(uint seriesid)
         {
+            var uriBuilder = new UriBuilder();
+            uriBuilder.Scheme = "http";
+            uriBuilder.Host = "thetvdb.com";
+            uriBuilder.Path = "api/" + ApiKey + "/series/" + seriesid.ToString() + "/" + Language + ".xml";
+
+            BaseSeriesDataContainer series = null;
+
+            try
+            {
+                var req = WebRequest.Create(uriBuilder.ToString()) as HttpWebRequest;
+
+                var xmlSerializer = new XmlSerializer(typeof(BaseSeriesDataContainer));
+
+                using (var resp = req.GetResponseAsync().Result)
+                {
+                    series = xmlSerializer.Deserialize(resp.GetResponseStream()) 
+                    as BaseSeriesDataContainer;
+                }
+            }
+            catch { }
             
+            return series;
+        }
+        
+        public BannersDataContainer GetSeriesBanner(uint seriesid)
+        {
+            var uriBuilder = new UriBuilder();
+            uriBuilder.Scheme = "http";
+            uriBuilder.Host = "thetvdb.com";
+            uriBuilder.Path = "api/" + ApiKey + "/series/" + seriesid.ToString() + "/banners.xml";
+            
+            BannersDataContainer banners = null;
+            try
+            {
+                var req = WebRequest.Create(uriBuilder.ToString()) as HttpWebRequest;
+
+                var xmlSerializer = new XmlSerializer(typeof(BannersDataContainer));
+
+                using (var resp = req.GetResponseAsync().Result)
+                {
+                    banners = xmlSerializer.Deserialize(resp.GetResponseStream()) 
+                    as BannersDataContainer;
+                }
+            }
+            catch { }
+            
+            return banners;
         }
     }
 }

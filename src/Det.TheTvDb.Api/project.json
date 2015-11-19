@@ -7,7 +7,6 @@
 	],
 
 	"frameworks": {
-=======
 		"dnx451": {
 			"frameworkAssemblies": {
 				"System.Xml": "4.0.0.0"
@@ -19,6 +18,5 @@
 				"System.Xml.XmlSerializer": "4.0.11-*"
 			}
 		}
->>>>>>> 2677a7cc12c5a7a3b734c5c77de356556353cac5
 	}
 }
